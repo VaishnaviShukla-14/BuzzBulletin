@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import SweetAlert from 'react-bootstrap-sweetalert';
@@ -13,9 +12,10 @@ const InternationalForm = ({ isVisible, onClose }) => {
     title: '',
     article: '',
     highlight: 'none',
+    date: new Date().toLocaleDateString(),
+    time: getCurrentTime(),
+    image: null,
   });
-
-  const name = Cookies.get('name');
 
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
@@ -31,6 +31,21 @@ const InternationalForm = ({ isVisible, onClose }) => {
     }));
   };
 
+  const handleFileChange = (e) => {
+    const image = e.target.files[0];
+    setFormData((prevData) => ({
+      ...prevData,
+      image: image,
+    }));
+  };
+
+  function getCurrentTime() {
+    const now = new Date();
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+    return `${hours}:${minutes}`;
+  }
+
   const handleHighlightChange = (value) => {
     setFormData({ ...formData, highlight: value });
   };
@@ -41,11 +56,13 @@ const InternationalForm = ({ isVisible, onClose }) => {
       const formDataWithUser = {
         ...formData,
         name: Cookies.get('name'), // Add the user's name to the form data
-        date: new Date().toLocaleDateString(), // Add date to the form data
-        time: new Date().toLocaleTimeString(), // Add time to the form data
       };
 
-      const response = await axios.post('http://localhost:3001/api/internationalnews', formDataWithUser);
+      const response = await axios.post('http://localhost:3001/api/internationalnews', formDataWithUser, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
       if (response && response.data) {
         console.log(response.data);
@@ -54,6 +71,8 @@ const InternationalForm = ({ isVisible, onClose }) => {
           title: '',
           article: '',
           highlight: 'none',
+          date: new Date().toLocaleDateString(),
+          time: getCurrentTime(),
         });
         setSuccessAlert(true);
       }
@@ -80,9 +99,9 @@ const InternationalForm = ({ isVisible, onClose }) => {
     <>
       {contextHolder}
       <div style={styles.formContainer}>
-        <h2 style={styles.heading}>{`International Form`}</h2>
+        <h2 style={styles.heading}>Educational Form</h2>
         <div style={styles.formGroup}>
-          <h3 style={styles.subheading}>{`Date: ${new Date().toLocaleDateString()}`} <br/> {name}</h3>
+          <h3 style={styles.subheading}>{`Date: ${formData.date}`} <br />{`Time: ${formData.time}`}<br /> {Cookies.get('name')}</h3>
         </div>
         <form onSubmit={handleSubmit}>
           <div style={styles.formGroup}>
@@ -109,6 +128,20 @@ const InternationalForm = ({ isVisible, onClose }) => {
               value={formData.article}
               onChange={handleChange}
               style={styles.textarea}
+              required
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <label htmlFor="image" style={styles.label}>
+              Image:
+            </label>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              onChange={handleFileChange}
+              style={styles.input}
+              accept="image/*"
               required
             />
           </div>
@@ -201,7 +234,6 @@ const styles = {
     width: '100%',
     padding: '10px',
     boxSizing: 'border-box',
-    border: '1px solid #ccc',
     borderRadius: '4px',
     marginBottom: '10px',
   },

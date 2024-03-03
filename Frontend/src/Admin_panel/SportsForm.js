@@ -11,19 +11,34 @@ const SportsForm = ({ isVisible, onClose }) => {
   const [formData, setFormData] = useState({
     title: '',
     article: '',
-    highlight: 'none', // Default to 'none'
-    sport: 'football', // Default sport type
+    sport: 'cricket', // Default sport selection
     date: new Date().toLocaleDateString(),
     time: getCurrentTime(),
+    image: null,
+    highlight: 'none',
   });
-
-  const name = Cookies.get('name');
 
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
 
   const Navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    const image = e.target.files[0];
+    setFormData((prevData) => ({
+      ...prevData,
+      image: image,
+    }));
+  };
 
   function getCurrentTime() {
     const now = new Date();
@@ -32,39 +47,34 @@ const SportsForm = ({ isVisible, onClose }) => {
     return `${hours}:${minutes}`;
   }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
   const handleHighlightChange = (value) => {
     setFormData({ ...formData, highlight: value });
-  };
-
-  const handleSportChange = (value) => {
-    setFormData({ ...formData, sport: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const dataToSend = {
+      const formDataWithUser = {
         ...formData,
         name: Cookies.get('name'), // Add the user's name to the form data
       };
 
-      const response = await axios.post('http://localhost:3001/api/sportsnews', dataToSend);
+      const response = await axios.post('http://localhost:3001/api/sportsnews', formDataWithUser, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
       if (response && response.data) {
         console.log(response.data);
-        console.log('Form submitted:', formData);
+        console.log('Form submitted:', formDataWithUser);
         setFormData({
           title: '',
           article: '',
-          highlight: 'none',
-          sport: 'football',
+          sport: 'cricket',
           date: new Date().toLocaleDateString(),
           time: getCurrentTime(),
+          highlight: 'none',
         });
         setSuccessAlert(true);
       }
@@ -93,7 +103,7 @@ const SportsForm = ({ isVisible, onClose }) => {
       <div style={styles.formContainer}>
         <h2 style={styles.heading}>Sports Form</h2>
         <div style={styles.formGroup}>
-          <h3 style={styles.subheading}>{`Date: ${formData.date}`}<br/>{`Time:${formData.time}`} <br/> {name}</h3>
+          <h3 style={styles.subheading}>{`Date: ${formData.date}`} <br />{`Time: ${formData.time}`}<br /> {Cookies.get('name')}</h3>
         </div>
         <form onSubmit={handleSubmit}>
           <div style={styles.formGroup}>
@@ -101,14 +111,13 @@ const SportsForm = ({ isVisible, onClose }) => {
               Title:
             </label>
             <Input
-              id="title"
               type="text"
+              id="title"
               name="title"
-              placeholder="Title"
-              onChange={handleChange}
               value={formData.title}
-              required
+              onChange={handleChange}
               style={styles.input}
+              required
             />
           </div>
           <div style={styles.formGroup}>
@@ -118,27 +127,25 @@ const SportsForm = ({ isVisible, onClose }) => {
             <Input.TextArea
               id="article"
               name="article"
-              placeholder="Article"
-              onChange={handleChange}
               value={formData.article}
+              onChange={handleChange}
               style={styles.textarea}
               required
             />
           </div>
           <div style={styles.formGroup}>
-            <label htmlFor="highlight" style={styles.label}>
-              Highlight:
+            <label htmlFor="image" style={styles.label}>
+              Image:
             </label>
-            <Select
-              id="highlight"
-              name="highlight"
-              value={formData.highlight}
-              onChange={handleHighlightChange}
-              style={{ ...styles.select, border: '1px solid #ccc' }}
-            >
-              <Option value="none">None</Option>
-              <Option value="highlight">Highlight</Option>
-            </Select>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              onChange={handleFileChange}
+              style={styles.input}
+              accept="image/*"
+              required
+            />
           </div>
           <div style={styles.formGroup}>
             <label htmlFor="sport" style={styles.label}>
@@ -148,13 +155,28 @@ const SportsForm = ({ isVisible, onClose }) => {
               id="sport"
               name="sport"
               value={formData.sport}
-              onChange={handleSportChange}
-              style={{ ...styles.select, border: '1px solid #ccc' }}
+              onChange={(value) => setFormData({ ...formData, sport: value })}
+              style={styles.select}
             >
-              <Option value="football">Football</Option>
               <Option value="cricket">Cricket</Option>
+              <Option value="football">Football</Option>
               <Option value="hockey">Hockey</Option>
             </Select>
+          </div>
+          <div style={styles.formGroup}>
+            <label htmlFor="highlight" style={styles.label}>
+              Highlight:
+            </label>
+            <select
+              id="highlight"
+              name="highlight"
+              value={formData.highlight}
+              onChange={(e) => handleHighlightChange(e.target.value)}
+              style={styles.select}
+            >
+              <option value="none">None</option>
+              <option value="highlight">Highlight</option>
+            </select>
           </div>
           <div style={styles.formGroup}>
             <Button type="primary" htmlType="submit" style={styles.submitButton}>

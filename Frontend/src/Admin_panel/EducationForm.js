@@ -7,22 +7,37 @@ import Cookies from 'js-cookie';
 
 const { Option } = Select;
 
-const EducationForm = ({ isVisible, onClose }) => {
+const EducationalForm = ({ isVisible, onClose }) => {
   const [formData, setFormData] = useState({
     title: '',
     article: '',
-    highlight: 'none', // Default to 'none'
+    highlight: 'none',
     date: new Date().toLocaleDateString(),
     time: getCurrentTime(),
+    image: null,
   });
-
-  const name = Cookies.get('name');
 
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
 
   const Navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    const image = e.target.files[0];
+    setFormData((prevData) => ({
+      ...prevData,
+      image: image,
+    }));
+  };
 
   function getCurrentTime() {
     const now = new Date();
@@ -31,11 +46,6 @@ const EducationForm = ({ isVisible, onClose }) => {
     return `${hours}:${minutes}`;
   }
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
   const handleHighlightChange = (value) => {
     setFormData({ ...formData, highlight: value });
   };
@@ -43,16 +53,20 @@ const EducationForm = ({ isVisible, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const dataToSend = {
+      const formDataWithUser = {
         ...formData,
-        name, // Include the 'name' in the form data
+        name: Cookies.get('name'), // Add the user's name to the form data
       };
 
-      const response = await axios.post('http://localhost:3001/api/educationalnews', dataToSend);
+      const response = await axios.post('http://localhost:3001/api/educationalnews', formDataWithUser, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
 
       if (response && response.data) {
         console.log(response.data);
-        console.log('Form submitted:', formData);
+        console.log('Form submitted:', formDataWithUser);
         setFormData({
           title: '',
           article: '',
@@ -85,9 +99,9 @@ const EducationForm = ({ isVisible, onClose }) => {
     <>
       {contextHolder}
       <div style={styles.formContainer}>
-        <h2 style={styles.heading}>Education Form</h2>
+        <h2 style={styles.heading}>Educational Form</h2>
         <div style={styles.formGroup}>
-          <h3 style={styles.subheading}>{`Date: ${formData.date}`}<br/>{`Time:${formData.time}`} <br/> {name}</h3>
+          <h3 style={styles.subheading}>{`Date: ${formData.date}`} <br />{`Time: ${formData.time}`}<br /> {Cookies.get('name')}</h3>
         </div>
         <form onSubmit={handleSubmit}>
           <div style={styles.formGroup}>
@@ -95,14 +109,13 @@ const EducationForm = ({ isVisible, onClose }) => {
               Title:
             </label>
             <Input
-              id="title"
               type="text"
+              id="title"
               name="title"
-              placeholder="Title"
-              onChange={handleChange}
               value={formData.title}
-              required
+              onChange={handleChange}
               style={styles.input}
+              required
             />
           </div>
           <div style={styles.formGroup}>
@@ -112,10 +125,23 @@ const EducationForm = ({ isVisible, onClose }) => {
             <Input.TextArea
               id="article"
               name="article"
-              placeholder="Article"
-              onChange={handleChange}
               value={formData.article}
+              onChange={handleChange}
               style={styles.textarea}
+              required
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <label htmlFor="image" style={styles.label}>
+              Image:
+            </label>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              onChange={handleFileChange}
+              style={styles.input}
+              accept="image/*"
               required
             />
           </div>
@@ -123,16 +149,16 @@ const EducationForm = ({ isVisible, onClose }) => {
             <label htmlFor="highlight" style={styles.label}>
               Highlight:
             </label>
-            <Select
+            <select
               id="highlight"
               name="highlight"
               value={formData.highlight}
-              onChange={handleHighlightChange}
-              style={{ ...styles.select, border: '1px solid #ccc' }}
+              onChange={(e) => handleHighlightChange(e.target.value)}
+              style={styles.select}
             >
-              <Option value="none">None</Option>
-              <Option value="highlight">Highlight</Option>
-            </Select>
+              <option value="none">None</option>
+              <option value="highlight">Highlight</option>
+            </select>
           </div>
           <div style={styles.formGroup}>
             <Button type="primary" htmlType="submit" style={styles.submitButton}>
@@ -232,4 +258,4 @@ const styles = {
   },
 };
 
-export default EducationForm;
+export default EducationalForm;

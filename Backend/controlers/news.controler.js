@@ -4,74 +4,77 @@ const EducationForm = require('../models/international.models');
 const SportsForm = require('../models/sports.models');
 
 
-const educationForm = async (req, res) => {
+const educationform = async (req, res) => {
   try {
     const { title, article, highlight, name, date, time } = req.body;
     const dateTime = `${date} ${time}`;
-    const educationForm = new EducationForm({
+    const image = req.file.path;
+
+    const newEducationForm = new EducationForm({
       title,
       article,
       highlight,
       name,
       dateTime,
+      image,
     });
 
-    const savedForm = await educationForm.save();
+    const savedForm = await newEducationForm.save();
 
-    res.status(201).json(savedForm);
+    res.status(201).json({ message: 'Education form created successfully', form: savedForm });
   } catch (error) {
-    console.error('Error saving education form:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error creating education form', error);
+    res.status(500).json({ message: 'Error creating education form' });
   }
 };
+
+const getEducationNews = async (req, res) => {
+  try {
+    const educationForms = await EducationForm.find();
+    res.status(200).json(educationForms);
+  } catch (error) {
+    console.error("Error fetching education forms", error);
+    res.status(500).json({ message: "Error fetching education forms" });
+  }
+};
+
+
 
 const internationalform = async (req, res) => {
   try {
-    const { title, article, highlight, name, date, time } = req.body;
+    const { name, title, article, highlight } = req.body;
+    const { date, time } = req.body;
+    const image = req.file.path;
 
-    // Combine date and time into a single dateTime string
-    const dateTime = `${date} ${time}`;
-
-    const internationalForm = new InternationalForm({
+    const newInternationalNews = new InternationalForm({
       title,
       article,
       highlight,
       name,
-      dateTime,
+      dateTime: `${date} ${time}`,
+      image,
     });
 
-    const savedForm = await internationalForm.save();
+    await newInternationalNews.save();
 
-    res.status(201).json(savedForm);
+    res.status(201).json({ message: "International news created successfully", news: newInternationalNews });
   } catch (error) {
-    console.error('Error saving form:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error("Error creating international news", error);
+    res.status(500).json({ message: "Error creating international news" });
   }
 };
 
-// const nationalform = async (req, res) => {
-//   try {
-//     const { title, article, highlight, name, date, time } = req.body;
-//     const dateTime = `${date} ${time}`;
+const getInternationalNews = async (req, res) => {
+  try {
+    const internationalNews = await InternationalForm.find();
+    res.status(200).json(internationalNews);
+  } catch (error) {
+    console.error("Error fetching international news", error);
+    res.status(500).json({ message: "Error fetching international news" });
+  }
+};
 
-//     const nationalForm = new NationalForm({
-//       title,
-//       article,
-//       highlight,
-//       name,
-//       dateTime,
-//     });
 
-//     const savedForm = await nationalForm.save();
-
-//     res.status(201).json(savedForm);
-//   } catch (error) {
-//     console.error('Error saving form:', error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// };
-
-// controllers/sportsFormController.js
 
 const nationalform = async (req, res) => {
   try {
@@ -115,24 +118,36 @@ const getNationalNews = async (req, res) => {
 
 const sportsform = async (req, res) => {
   try {
-    const { title, article, highlight, sport, date, time, name } = req.body;
-    const dateTime = `${date} ${time}`;
+    const { title, article, highlight, sport, name } = req.body;
+    const {date, time} = req.body;
+    const image = req.file.path; // Assuming multer saves the file path to req.file.path
 
-    const sportsForm = new SportsForm({
+    const newNews = new SportsForm({
       title,
       article,
       highlight,
       sport,
-      dateTime,
+      dateTime:`${date} ${time}`,
       name,
+      image,
     });
 
-    const savedForm = await sportsForm.save();
+     await newNews.save();
 
-    res.status(201).json(savedForm);
+    res.status(201).json({ message: 'Sports form created successfully', news: newNews });
   } catch (error) {
-    console.error('Error saving sports form:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error creating sports form', error);
+    res.status(500).json({ message: 'Error creating sports form' });
+  }
+};
+
+const getSportsNews = async (req, res) => {
+  try {
+    const sportsNews = await SportsForm.find();
+    res.status(200).json(sportsNews);
+  } catch (error) {
+    console.error("Error fetching sports forms", error);
+    res.status(500).json({ message: "Error fetching sports forms" });
   }
 };
 
@@ -142,9 +157,12 @@ const sportsform = async (req, res) => {
 module.exports = {
   internationalform,
   nationalform,
-  educationForm,
+  educationform,
   sportsform,
   getNationalNews,
+  getSportsNews,
+  getInternationalNews,
+  getEducationNews,
 };
 
 

@@ -77,7 +77,6 @@ const NationalForm = ({ isVisible, onClose }) => {
 
         });
         setSuccessAlert(true);
-        Navigate('/nationalnews')
 
       }
     } catch (error) {

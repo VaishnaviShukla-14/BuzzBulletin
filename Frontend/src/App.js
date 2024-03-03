@@ -9,10 +9,11 @@ import Weather from './Pages/Weather';
 import Logout from './Pages/Logout';
 import AdminPage from './Admin_panel/AdminPage';
 import User from './Admin_panel/user';
-import Internationalnews from './FrontNews/Internatioalnews';
 import NewsPage from './Admin_panel/NewsPage';
 import NationalNews from './ShowNews/NationalNews';
-
+import InternationalNews from './ShowNews/Internationalnews';
+import EducationNews from './ShowNews/Educationalnews';
+import SportsNews from './ShowNews/Sportsnews';
 
 function App() {
   return (
@@ -30,9 +31,11 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/adminpage" element={<AdminPage />} />
           <Route path="/user" element={<User />} />
-          <Route path="/internationalnews" element={<Internationalnews />} />
           <Route path="/newspage" element={<NewsPage />} />
           <Route path="/nationalnews" element={<NationalNews />} />
+          <Route path="/InternationalNews" element={<InternationalNews/>} />
+          <Route path="/educationalnews" element={<EducationNews />} />
+          <Route path="/sportsnews" element={<SportsNews />} />
         </Routes>
       </div>
     </Router>

@@ -1,39 +1,3 @@
-// import * as React from 'react';
-// import '../index.css';
-// import Appbar from '../MandatoryItems/Appbar';
-// import LeftDrawer from '../MandatoryItems/LeftDrawer';
-// import SubAppBar from '../MandatoryItems/SubAppBar';
-// import Footer from '../MandatoryItems/Footer';
-// import Weather from './Weather';
-
-
-// const MainPage = () => {
-//   return (
-//     <>
-//       <div className="Container">
-//         <Appbar />
-//       </div>
-//       <div className="Container">
-//         <SubAppBar />
-//       </div>
-//       <div className="Container_2_main">
-//       <div className="Container_2" sx={{marginTop:'20%'}}>
-//         <LeftDrawer />
-//       </div>
-//       <div className='container_2_a'>
-//       <Weather/>
-//       </div>
-//       </div>
-//       <div className='container_3'>
-//         <Footer/>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default MainPage;
-
-
 import * as React from 'react';
 import '../index.css';
 import Appbar from '../MandatoryItems/Appbar';
@@ -41,6 +5,11 @@ import SubAppBar from '../MandatoryItems/SubAppBar';
 import Footer from '../MandatoryItems/Footer';
 import Weather from './Weather';
 import Slider from './Slider';
+import Nationalnews from '../ShowNews/NationalNews';
+import Internationalnews from '../ShowNews/Internationalnews';
+import Educationalnews from '../ShowNews/Educationalnews';
+import Sportnews from '../ShowNews/Sportsnews';
+
 
 const MainPage = () => {
   return (
@@ -58,6 +27,23 @@ const MainPage = () => {
       <div className="Container_3" >
         <div>
           <Slider/>
+        </div>
+      </div>
+      <div><h1>National News</h1>
+        <div>
+          <Nationalnews/>
+        </div>
+        <h1>International News</h1>
+        <div>
+          <Internationalnews/>
+        </div>
+        <h1>Educational News</h1>
+        <div>
+          <Educationalnews/>
+        </div>
+        <h1>Sports News</h1>
+        <div>
+          <Sportnews/>
         </div>
       </div>
       <div className='container_4'>

@@ -4,9 +4,12 @@ const router = express.Router();
 const {
    internationalform,
    nationalform,
-   educationForm,
+   educationform,
    sportsform,
    getNationalNews,
+   getSportsNews,
+   getEducationNews,
+   getInternationalNews,
 } = require("../controlers/news.controler");
 
 
@@ -20,10 +23,17 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-router.post('/internationalnews', internationalform);
+//Storing national news in backend
+router.post('/internationalnews', upload.single("image"), internationalform);
 router.post("/nationalnews", upload.single("image"), nationalform);
-router.post('/educationalnews', educationForm);
-router.post('/sportsnews', sportsform);
-router.get('/nationalnews', getNationalNews)
+router.post('/educationalnews',upload.single("image"), educationform);
+router.post('/sportsnews', upload.single("image"),sportsform);
+
+
+//Getting the national news from backend
+router.get('/nationalnews',upload.single("image"), getNationalNews);
+router.get('/internationalnews',upload.single("image"), getInternationalNews);
+router.get('/educationalnews',upload.single("image"), getEducationNews);
+router.get('/sportsnews',upload.single("image"), getSportsNews);
 
 module.exports = router;
