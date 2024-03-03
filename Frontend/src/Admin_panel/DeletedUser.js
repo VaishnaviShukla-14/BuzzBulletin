@@ -1,6 +1,6 @@
-// DeletedUsersPage.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material';
 
 const DeletedUsersPage = () => {
   const [deletedUsers, setDeletedUsers] = useState([]);
@@ -26,14 +26,33 @@ const DeletedUsersPage = () => {
   return (
     <div>
       <h1>Deleted Users</h1>
-      <ul>
-        {Array.isArray(deletedUsers) &&
-          deletedUsers.map((user) => (
-            <li key={user._id}>
-              <strong>{user.name}</strong> - {user.phone} - {user.email} - {user.address} - {user.adharcard} - {user.password}
-            </li>
-          ))}
-      </ul>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Name</TableCell>
+              <TableCell>Phone</TableCell>
+              <TableCell>Email</TableCell>
+              <TableCell>Address</TableCell>
+              <TableCell>Adharcard</TableCell>
+              <TableCell>Password</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Array.isArray(deletedUsers) &&
+              deletedUsers.map((user) => (
+                <TableRow key={user._id}>
+                  <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.phone}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.address}</TableCell>
+                  <TableCell>{user.adharcard}</TableCell>
+                  <TableCell>{user.password}</TableCell>
+                </TableRow>
+              ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };

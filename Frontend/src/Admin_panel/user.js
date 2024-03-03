@@ -270,6 +270,7 @@ export default function EnhancedTable() {
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
+      <h1>Current Users</h1>
         <TableContainer>
           <Table aria-labelledby="tableTitle" size="medium">
             <TableHead>
