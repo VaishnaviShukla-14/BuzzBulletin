@@ -31,16 +31,55 @@ const loginUser = async (req, res) => {
 };
 
 //Show Users
+// const showUser = async (_, res) => {
+//   try {
+//     const users = await User.find(); // Change variable name to 'users'
+//     res.status(200).json({ mess: "Users Found Successfully", data:users });
+//   } catch (error) {
+//     res.status(400).json({ mess: "Users not found", error });
+//   }
+// };
+
 const showUser = async (_, res) => {
   try {
-    const users = await User.find(); // Change variable name to 'users'
-    res.status(200).json({ mess: "Users Found Successfully", data:users });
+    const users = await User.find({ isDeleted: { $ne: true } }); // Exclude deleted users
+    res.status(200).json({ mess: "Users Found Successfully", data: users });
   } catch (error) {
     res.status(400).json({ mess: "Users not found", error });
   }
 };
 
 //delete User
+// const deleteUser = async (req, res) => {
+//   const { name } = req.body;
+
+//   try {
+//     if (!name) {
+//       console.error("Invalid user name provided");
+//       return res.status(400).json({ mess: "Invalid user name provided" });
+//     }
+
+//     console.log(`Attempting to delete user with name: ${name}`);
+
+//     const deletedUser = await User.findOneAndDelete({ name });
+
+//     if (deletedUser) {
+//       // Assuming you have a productImagePath property in your User model
+//       // const imageToDelete = deletedUser.productImagePath;
+
+//       console.log(`User with name ${name} deleted successfully`);
+//       return res.status(200).json({ mess: "User deleted" });
+//     } else {
+//       console.log(`User with name ${name} not found`);
+//       return res.status(404).json({ mess: "User not found" });
+//     }
+//   } catch (error) {
+//     console.error(`Error deleting user with name ${name}:`, error.message);
+//     return res.status(500).json({ mess: "Internal server error", error: error.message });
+//   }
+// };
+
+// delete User
 const deleteUser = async (req, res) => {
   const { name } = req.body;
 
@@ -52,12 +91,13 @@ const deleteUser = async (req, res) => {
 
     console.log(`Attempting to delete user with name: ${name}`);
 
-    const deletedUser = await User.findOneAndDelete({ name });
+    const deletedUser = await User.findOneAndUpdate(
+      { name },
+      { $set: { isDeleted: true } }, // Set isDeleted to true when deleting the user
+      { new: true }
+    );
 
     if (deletedUser) {
-      // Assuming you have a productImagePath property in your User model
-      // const imageToDelete = deletedUser.productImagePath;
-
       console.log(`User with name ${name} deleted successfully`);
       return res.status(200).json({ mess: "User deleted" });
     } else {
@@ -69,6 +109,7 @@ const deleteUser = async (req, res) => {
     return res.status(500).json({ mess: "Internal server error", error: error.message });
   }
 };
+
 
 // Update the user 
 const updateUser = async (req, res) => {
@@ -119,5 +160,15 @@ const searchUser = async (req,res) => {
     }
 };
 
+const showDeletedUsers = async (_, res) => {
+  try {
+    const deletedUsers = await User.find({ isDeleted: true });
+    res.status(200).json({ mess: "Deleted Users Found Successfully", data: deletedUsers });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ mess: "Error fetching deleted users", error: error.message });
+  }
+};
 
-module.exports = { addUser, loginUser, showUser,deleteUser,updateUser,searchUser };
+
+module.exports = { addUser, loginUser, showUser, deleteUser, updateUser, searchUser, showDeletedUsers};

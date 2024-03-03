@@ -19,6 +19,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { FaBell } from "react-icons/fa";
 import { IoMailSharp } from "react-icons/io5";
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 
   
@@ -35,7 +36,7 @@ export default function MenuAppBar() {
   };
 
   const handleClose = () => {
-    setAnchorEl(null);
+    <Link></Link>
   };
 
 
@@ -85,9 +86,7 @@ export default function MenuAppBar() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
               >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Dashboard</MenuItem>
+                <MenuItem><Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>Dashboard</Link></MenuItem>
               </Menu>
             </div>
           )}

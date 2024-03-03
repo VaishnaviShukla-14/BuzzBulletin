@@ -18,6 +18,7 @@ import EnhancedInternationalTable from './Admin_panel/EnhancedInternationalTable
 import EnhancedNationalTable from './Admin_panel/EnhancedNationalTable';
 import EnhancedEducationalTable from './Admin_panel/EnhancedEducationTable';
 import EnhancedSportsTable from './Admin_panel/EnhancedSportsTable';
+import DeletedUsersForm from './Admin_panel/DeletedUser';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
           <Route path="/enhancednatiotable" element={<EnhancedNationalTable/>} />
           <Route path="/enhancededutable" element={<EnhancedEducationalTable/>} />
           <Route path="/enhancedsportstable" element={<EnhancedSportsTable/>} />
+          <Route path="/deleteUser" element={<DeletedUsersForm/>} />
         </Routes>
       </div>
     </Router>
