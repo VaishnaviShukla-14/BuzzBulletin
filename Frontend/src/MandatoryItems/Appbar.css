@@ -1,0 +1,19 @@
+.text {
+  position: relative;
+  margin-left: 400px;
+
+}
+
+.text::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -2px;
+  background-color:black;
+  transition: width 0.5s ease-in;
+}
+
+.text:hover::before {
+  width: 215px;
+}

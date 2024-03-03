@@ -1,0 +1,75 @@
+
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: URL("/public/Images/login_logo6.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 100px;
+}
+
+.signup-form {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    width: 400px;
+    position: absolute;
+    top: 50%;
+    margin-left: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+}
+
+.signup-form h3 {
+    margin-bottom: 10px;
+}
+
+.signup-form p {
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.form-control {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-floating {
+    margin-bottom: 20px;
+}
+
+.form-floating textarea {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    resize: none;
+}
+
+.d-grid {
+    text-align: center;
+}
+
+
+.btn-design{
+    background-color:black;
+    color:white;
+    border: none;
+    margin-top: 10px;
+    width: 100%;
+    letter-spacing: 1.5px;
+}
+
+.btn-design:hover {
+    opacity: 0.8;
+}

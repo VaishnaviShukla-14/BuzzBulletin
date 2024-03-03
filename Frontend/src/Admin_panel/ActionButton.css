@@ -1,0 +1,26 @@
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
+    top: 66px !important;
+    position: fixed;
+    width: 220px;
+}
+
+.css-10hburv-MuiTypography-root {
+    margin: 0;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 1.5rem !important;
+    line-height: 1.5;
+    letter-spacing: 0.00938em;
+    display: static;
+    color: rgb(158, 28, 209);
+}
+
+.css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root {
+    display: block !important;
+    padding-left: 10% !important;
+    height: 40% !important;
+}
+
+.css-2kxr3k-MuiPaper-root-MuiAppBar-root {
+    background: linear-gradient(to right, rgb(129, 2, 184), rgb(129, 2, 184)) !important;
+}

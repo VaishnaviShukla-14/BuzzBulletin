@@ -1,0 +1,44 @@
+
+.forget-pass-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: URL("/public/Images/login_logo6.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 100px;
+}
+
+.forget-pass-form {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    position: absolute;
+    top: 50%;
+    margin-left: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: transparent;
+}
+
+.forget-pass-form h2 {
+    color:black;
+   margin-left: 40px;
+    margin-bottom: 20px;
+}
+
+.forget-pass-form > div {
+    margin-top: 20px;
+}
+
+.forget-pass-form .MuiFormControl-root {
+    width: 100%;
+}
+
+.forget-pass-form .MuiButton-root {
+    width: 100%;
+    margin-top: 20px;
+}

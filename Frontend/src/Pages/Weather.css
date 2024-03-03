@@ -1,0 +1,80 @@
+
+ 
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+.navbar {
+  background: transparent;
+}
+
+.day {
+  background-color : #FFF5EE;
+}
+
+.night {
+  background-color:#B6D0E2 ;
+}
+
+.navbar-brand {
+  margin-right: 30px;
+}
+
+.temperature {
+  font-size: 2.5rem;
+  margin: 0;
+}
+
+.navbar-toggler {
+  border: none;
+}
+
+.search-bar {
+  display: block;
+  align-items: center;
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+}
+
+.form-control.input {
+  border: none;
+  border-bottom: 2px solid #333;
+  outline: none;
+  padding-right: 30px;
+  margin-right: 20px; /* Added */
+}
+
+.search-icon {
+  position: absolute;
+  right: 16px;
+  margin-top: -52px;
+  padding: 0%;
+  cursor: pointer;
+}
+
+.labels {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.details {
+  display: absolute;
+  align-items: center;
+  margin-right: 693px;
+  margin-top: 10px; /* Added */
+  color:rgb(3, 3, 3);
+  font-weight: bolder;
+  font-size: 0%;
+}
+
+.navbar-expand-lg .navbar-collapse {
+  display: block!important;
+  flex-basis: auto;
+}
+
+.details span {
+  margin-right: 20px;
+}

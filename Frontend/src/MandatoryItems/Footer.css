@@ -1,0 +1,104 @@
+
+.Footer {
+    background-color:#fbec5d;
+    color:black;
+    padding: 30px 0;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px; 
+}
+
+.row {
+    display: flex;
+}
+
+.col_1,
+.col_2,
+.col_3 {
+    flex: 1;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease;
+}
+
+.col_1:hover,
+.col_2:hover,
+.col_3:hover {
+    background-color:white; 
+}
+
+.logo-design{
+
+width:150px;
+height:150px;
+
+}
+
+.col_1 button-logo {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.col_1 img {
+    height: 2.5em; 
+    width: 2.5em; 
+    border-radius: 50%;
+    margin-right: 10px; 
+}
+
+.col_1 p {
+    font-size: 1rem; 
+}
+
+.col_1 h3 {
+    color: #8e44ad; 
+    font-size: 1.8em; 
+    font-weight: bold; 
+}
+
+.col_2 h3,
+.col_3 h3 {
+    border-bottom: 2px solid black; 
+    padding-bottom: 10px;
+    font-size: 1.3em; 
+    color:#fff;
+}
+
+.col_2 p,
+.col_3 p {
+    margin: 10px 0;
+    font-size: 1.1em; 
+}
+
+.social-icons {
+    font-size: 24px;
+}
+
+
+.col_2 a {
+    text-decoration: none; 
+    color: white; 
+}
+
+a:visited {
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .col_1,
+    .col_2,
+    .col_3 {
+        margin: 10px 0; 
+    }
+}
+

@@ -1,0 +1,11 @@
+.col-sm-1 h3 {
+    color: rgb(251, 236, 93);
+    font-size: 20px;
+    text-decoration: none; 
+    transition: text-decoration 0.3s !important ;
+  }
+  
+  .col-sm-1 h3:hover {
+    text-decoration: underline !important;
+    color: white !important; 
+  }
