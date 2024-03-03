@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './Register.css'; // Assuming you have a Signup.css file for styling
+import './Register.css';
 
 function UserSignup() {
     const [data, setData] = useState({
@@ -13,7 +13,27 @@ function UserSignup() {
         phone: "",
         address: "",
         adharcard: "",
-    });
+});
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+        return emailRegex.test(email);
+    };
+
+    const validatePassword = (password) => {
+        const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=.*[a-zA-Z]).{8,10}$/;
+        return passwordRegex.test(password);
+    };
+
+    const validatePhone = (phone) => {
+        const phoneRegex = /^[0-9]{10}$/;
+        return phoneRegex.test(phone);
+    };
+
+    const validateAdharcard = (adharcard) => {
+        const adharcardRegex = /^[0-9]{12}$/;
+        return adharcardRegex.test(adharcard);
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -22,18 +42,43 @@ function UserSignup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const { email, password, phone, address, adhr, add } = data;
+
+        // Validate email
+        if (!validateEmail(email)) {
+            toast.error('Please enter a valid email address');
+            return;
+        }
+
+        // Validate password
+        if (!validatePassword(password)) {
+            toast.error('Please enter a valid password');
+            return;
+        }
+
+        // Validate phone
+        if (!validatePhone(phone)) {
+            toast.error('Please enter a valid phone number');
+            return;
+        }
+
+        // Validate adharcard
+        if (!validateAdharcard(adhr)) {
+            toast.error('Please enter a valid Adharcard number');
+            return;
+        }
+
         try {
-            // Ensure that adharcard and address are included in the data state
             const res = await axios.post("http://localhost:3001/api/user", {
                 ...data,
-                adharcard: data.adhr,  // Assuming adhr is the correct field name in your form
-                address: data.add,     // Assuming add is the correct field name in your form
+                adharcard: adhr,
+                address: add,
             });
             if (res.data && res.data.newUser.address !== "") {
                 toast.success(`New User Created ${res.data.newUser.name}`);
             }
         } catch (error) {
-            toast.error('Please Insert the Data Before submit');
+            toast.error('Error creating user. Please try again.');
         }
     };
 
