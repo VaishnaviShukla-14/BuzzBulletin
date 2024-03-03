@@ -1,6 +1,6 @@
-const InternationalForm = require('../models/education.models');
+const EducationForm = require('../models/education.models');
 const NationalForm = require('../models/national.models');
-const EducationForm = require('../models/international.models');
+const InternationalForm  = require('../models/international.models');
 const SportsForm = require('../models/sports.models');
 
 
@@ -153,6 +153,111 @@ const getSportsNews = async (req, res) => {
 
 
 
+const deleteInternationalNews = async (req, res) => {
+  const { title } = req.body;
+
+  try {
+    if (!title) {
+      console.error("Invalid title provided");
+      return res.status(400).json({ message: "Invalid title provided" });
+    }
+
+    console.log(`Attempting to delete international news with title: ${title}`);
+
+    const deletedNews = await InternationalForm.findOneAndDelete({ title });
+
+    if (deletedNews) {
+      console.log(`International news with title ${title} deleted successfully`);
+      return res.status(200).json({ message: "International news deleted" });
+    } else {
+      console.log(`International news with title ${title} not found`);
+      return res.status(404).json({ message: "International news not found" });
+    }
+  } catch (error) {
+    console.error(`Error deleting international news with title ${title}:`, error.message);
+    return res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};
+
+const deleteNationalNews = async (req, res) => {
+  const { title } = req.body;
+
+  try {
+    if (!title) {
+      console.error("Invalid title provided");
+      return res.status(400).json({ message: "Invalid title provided" });
+    }
+
+    console.log(`Attempting to delete national news with title: ${title}`);
+
+    const deletedNews = await NationalForm.findOneAndDelete({ title });
+
+    if (deletedNews) {
+      console.log(`National news with title ${title} deleted successfully`);
+      return res.status(200).json({ message: "National news deleted" });
+    } else {
+      console.log(`National news with title ${title} not found`);
+      return res.status(404).json({ message: "National news not found" });
+    }
+  } catch (error) {
+    console.error(`Error deleting national news with title ${title}:`, error.message);
+    return res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};
+
+const deleteEducationNews = async (req, res) => {
+  const { title } = req.body;
+
+  try {
+    if (!title) {
+      console.error("Invalid title provided");
+      return res.status(400).json({ message: "Invalid title provided" });
+    }
+
+    console.log(`Attempting to delete education news with title: ${title}`);
+
+    const deletedNews = await EducationForm.findOneAndDelete({ title });
+
+    if (deletedNews) {
+      console.log(`Education news with title ${title} deleted successfully`);
+      return res.status(200).json({ message: "Education news deleted" });
+    } else {
+      console.log(`Education news with title ${title} not found`);
+      return res.status(404).json({ message: "Education news not found" });
+    }
+  } catch (error) {
+    console.error(`Error deleting education news with title ${title}:`, error.message);
+    return res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};
+
+const deleteSportsNews = async (req, res) => {
+  const { title } = req.body;
+
+  try {
+    if (!title) {
+      console.error("Invalid title provided");
+      return res.status(400).json({ message: "Invalid title provided" });
+    }
+
+    console.log(`Attempting to delete sports news with title: ${title}`);
+
+    const deletedNews = await SportsForm.findOneAndDelete({ title });
+
+    if (deletedNews) {
+      console.log(`Sports news with title ${title} deleted successfully`);
+      return res.status(200).json({ message: "Sports news deleted" });
+    } else {
+      console.log(`Sports news with title ${title} not found`);
+      return res.status(404).json({ message: "Sports news not found" });
+    }
+  } catch (error) {
+    console.error(`Error deleting sports news with title ${title}:`, error.message);
+    return res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};
+
+
 
 module.exports = {
   internationalform,
@@ -163,6 +268,10 @@ module.exports = {
   getSportsNews,
   getInternationalNews,
   getEducationNews,
+  deleteInternationalNews,
+  deleteNationalNews,
+  deleteEducationNews,
+  deleteSportsNews,
 };
 
 

@@ -14,6 +14,10 @@ import NationalNews from './ShowNews/NationalNews';
 import InternationalNews from './ShowNews/Internationalnews';
 import EducationNews from './ShowNews/Educationalnews';
 import SportsNews from './ShowNews/Sportsnews';
+import EnhancedInternationalTable from './Admin_panel/EnhancedInternationalTable';
+import EnhancedNationalTable from './Admin_panel/EnhancedNationalTable';
+import EnhancedEducationalTable from './Admin_panel/EnhancedEducationTable';
+import EnhancedSportsTable from './Admin_panel/EnhancedSportsTable';
 
 function App() {
   return (
@@ -36,6 +40,10 @@ function App() {
           <Route path="/InternationalNews" element={<InternationalNews/>} />
           <Route path="/educationalnews" element={<EducationNews />} />
           <Route path="/sportsnews" element={<SportsNews />} />
+          <Route path="/enhancedintertable" element={<EnhancedInternationalTable/>} />
+          <Route path="/enhancednatiotable" element={<EnhancedNationalTable/>} />
+          <Route path="/enhancededutable" element={<EnhancedEducationalTable/>} />
+          <Route path="/enhancedsportstable" element={<EnhancedSportsTable/>} />
         </Routes>
       </div>
     </Router>

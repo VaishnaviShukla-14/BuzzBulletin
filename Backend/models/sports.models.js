@@ -31,6 +31,6 @@ const sportsFormSchema = mongoose.Schema({
   },
 });
 
-const Newss = mongoose.model('sportsNews', sportsFormSchema);
+const SportsNews = mongoose.model('sportsNews', sportsFormSchema);
 
-module.exports = Newss;
+module.exports = SportsNews;

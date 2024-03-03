@@ -99,7 +99,7 @@ const InternationalForm = ({ isVisible, onClose }) => {
     <>
       {contextHolder}
       <div style={styles.formContainer}>
-        <h2 style={styles.heading}>Educational Form</h2>
+        <h2 style={styles.heading}>International Form</h2>
         <div style={styles.formGroup}>
           <h3 style={styles.subheading}>{`Date: ${formData.date}`} <br />{`Time: ${formData.time}`}<br /> {Cookies.get('name')}</h3>
         </div>

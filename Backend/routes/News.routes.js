@@ -10,6 +10,10 @@ const {
    getSportsNews,
    getEducationNews,
    getInternationalNews,
+   deleteInternationalNews,
+   deleteNationalNews,
+   deleteEducationNews,
+   deleteSportsNews,
 } = require("../controlers/news.controler");
 
 
@@ -35,5 +39,11 @@ router.get('/nationalnews',upload.single("image"), getNationalNews);
 router.get('/internationalnews',upload.single("image"), getInternationalNews);
 router.get('/educationalnews',upload.single("image"), getEducationNews);
 router.get('/sportsnews',upload.single("image"), getSportsNews);
+
+//Delete news from the form api
+router.delete('/deleteinternationalnews',deleteInternationalNews);
+router.delete('/deletenationalnews',deleteNationalNews);
+router.delete('/deleteeducationalnews',deleteEducationNews);
+router.delete('/deletesportsnews',deleteSportsNews);
 
 module.exports = router;
