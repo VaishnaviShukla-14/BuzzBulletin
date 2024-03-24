@@ -1,4 +1,3 @@
-
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -6,12 +5,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
 import Cookies from 'js-cookie'; 
-import { FaUser } from "react-icons/fa";
-import { FaLock } from "react-icons/fa";
+import { FaUser } from 'react-icons/fa';
 
-
-
-function Login() {
+function UserLogin() {
     const [login, setLogin] = useState({
         email: "",
         password: "",
@@ -40,29 +36,26 @@ function Login() {
 
     return (
         <>
-
             <div className='Login_container'>
                 <div className='main-form'>
                     <div className="wrapper">
                         <form onSubmit={handleSubmit}>
-                            <h1><span className='signup-form-text' style={{marginBottom:'20px'}}>Login</span> </h1>
+                            <h1><span className='signup-form-text' style={{marginBottom:'20px',fontFamily:'mv boli',fontWeight:'550'}}>Login</span> </h1>
                             <div className="input-box">
-                                <input type="email" onChange={handleChange} placeholder='Email' name='email' className='form-control' required />
-                                {/* <FaUser className="icon" /> */}
-                            </div>
+                            <input type="email" onChange={handleChange} placeholder='Email' name='email' className='form-control icon-input' required />
+                             </div>
                             <div className="input-box">
-                                <input type="password" onChange={handleChange} placeholder='Password' name='password' className='form-control mt-3' autoComplete='123' required />
-                                {/* <FaLock className="icon" /> */}
+                                <input type="password" onChange={handleChange} placeholder='Password' name='password' className='form-control mt-3' autoComplete='123' required></input>
                             </div>
                             <div className='remember-forgot'>
                                 <label><input type="checkbox"/>Remember me</label>
-                                <Link to="/ForgotPass" style={{color:'black'}}>Forgot Password?</Link>
+                                <Link to="/ForgotPass" style={{color:'black',textDecoration:'none'}}>Forgot Password?</Link>
                             </div>
                             <div className="d-grid gap-2 mt-2 submit">
                                 <button className="btn-design" type='submit' >Login</button>
                             </div>
                             <div className="register-link">
-                                <p>Don't have an account?</p><Link to="/Register" style={{color:'black'}}>Register</Link>
+                                <p>Don't have an account?</p><Link to="/Register" style={{color:'black',textDecoration:'none'}}>Register</Link>
                             </div>
                         </form>
                         <ToastContainer
@@ -79,10 +72,8 @@ function Login() {
                     </div>
                 </div>
             </div>
-         
         </>
     )
 }
 
-export default Login;
-
+export default UserLogin;

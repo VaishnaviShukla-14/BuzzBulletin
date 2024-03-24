@@ -15,10 +15,12 @@ const InternationalForm = ({ isVisible, onClose }) => {
     date: new Date().toLocaleDateString(),
     time: getCurrentTime(),
     image: null,
+    video: null,
   });
 
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const Navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
@@ -32,10 +34,10 @@ const InternationalForm = ({ isVisible, onClose }) => {
   };
 
   const handleFileChange = (e) => {
-    const image = e.target.files[0];
+    const file = e.target.files[0];
     setFormData((prevData) => ({
       ...prevData,
-      image: image,
+      [e.target.name]: file,
     }));
   };
 
@@ -55,10 +57,20 @@ const InternationalForm = ({ isVisible, onClose }) => {
     try {
       const formDataWithUser = {
         ...formData,
-        name: Cookies.get('name'), // Add the user's name to the form data
+        name: Cookies.get('name'),
       };
 
-      const response = await axios.post('http://localhost:3001/api/internationalnews', formDataWithUser, {
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formDataWithUser.name);
+      formDataToSend.append('title', formDataWithUser.title);
+      formDataToSend.append('article', formDataWithUser.article);
+      formDataToSend.append('highlight', formDataWithUser.highlight);
+      formDataToSend.append('date', formDataWithUser.date);
+      formDataToSend.append('time', formDataWithUser.time);
+      formDataToSend.append('image', formDataWithUser.image);
+      formDataToSend.append('video', formDataWithUser.video);
+
+      const response = await axios.post('http://localhost:3001/api/internationalnews', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -73,12 +85,15 @@ const InternationalForm = ({ isVisible, onClose }) => {
           highlight: 'none',
           date: new Date().toLocaleDateString(),
           time: getCurrentTime(),
+          image: null,
+          video: null,
         });
         setSuccessAlert(true);
       }
     } catch (error) {
       console.error('Error during runtime', error);
       setErrorAlert(true);
+      setErrorMessage('Error during submission. Please try again.');
     }
   };
 
@@ -146,6 +161,20 @@ const InternationalForm = ({ isVisible, onClose }) => {
             />
           </div>
           <div style={styles.formGroup}>
+            <label htmlFor="video" style={styles.label}>
+              Video:
+            </label>
+            <input
+              type="file"
+              id="video"
+              name="video"
+              onChange={handleFileChange}
+              style={styles.input}
+              accept="video/*"
+              required
+            />
+          </div>
+          <div style={styles.formGroup}>
             <label htmlFor="highlight" style={styles.label}>
               Highlight:
             </label>
@@ -178,7 +207,7 @@ const InternationalForm = ({ isVisible, onClose }) => {
 
         {errorAlert && (
           <SweetAlert error title="Error" onConfirm={handleErrorAlertClose}>
-            Error during submission. Please try again.
+            {errorMessage}
           </SweetAlert>
         )}
       </div>
@@ -189,73 +218,47 @@ const InternationalForm = ({ isVisible, onClose }) => {
 const styles = {
   formContainer: {
     maxWidth: '600px',
-    margin: 'auto',
-    padding: '20px',
-    backgroundColor: '#ffffff',
-    borderRadius: '8px',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    margin: '0 auto',
   },
   heading: {
-    color: '#333',
+    textAlign: 'center',
+    marginBottom: '30px',
+  },
+  subheading: {
     textAlign: 'center',
     marginBottom: '20px',
   },
-  subheading: {
-    color: '#888',
-    textAlign: 'right',
-    fontSize: '14px',
-    marginBottom: '10px',
-  },
   formGroup: {
-    marginBottom: '16px',
+    marginBottom: '20px',
   },
   label: {
     display: 'block',
-    marginBottom: '8px',
-    fontWeight: 'bold',
+    marginBottom: '5px',
   },
   input: {
     width: '100%',
     padding: '10px',
-    boxSizing: 'border-box',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    marginBottom: '10px',
+    fontSize: '16px',
   },
   textarea: {
     width: '100%',
     padding: '10px',
-    boxSizing: 'border-box',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    marginBottom: '10px',
+    fontSize: '16px',
   },
   select: {
+   
     width: '100%',
     padding: '10px',
-    boxSizing: 'border-box',
-    borderRadius: '4px',
-    marginBottom: '10px',
+    fontSize: '16px',
   },
   submitButton: {
-    backgroundColor: '#4caf50',
-    color: 'white',
-    paddingbottom: '12px',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '16px',
+    width: '100%',
   },
   closeButton: {
-    backgroundColor: '#ff5252',
-    color: 'white',
-    paddingbottom: '12px',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    fontSize: '16px',
-    marginTop: '10px',
+    width: '100%',
+    marginTop: '20px',
   },
-};
-
-export default InternationalForm;
+  };
+  
+  export default InternationalForm;
+  

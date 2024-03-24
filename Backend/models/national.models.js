@@ -26,6 +26,10 @@ const newsSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    video: {
+      type:String,
+      required: false,
+    },
   },
   {
     timestamps: true,

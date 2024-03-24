@@ -212,6 +212,7 @@ export default function EnhancedTable() {
   const [rows, setRows] = useState([]);
   const [editUser, setEditUser] = useState(null);
   const [open, setOpen] = useState(false);
+  const [rowId , setRowId] = useState();
 
   useEffect(() => {
     fetchData();
@@ -221,7 +222,9 @@ export default function EnhancedTable() {
     try {
       const response = await axios.get('http://localhost:3001/api/showUser');
       if (response.data && response.data.data && Array.isArray(response.data.data)) {
+        
         setRows(response.data.data);
+        return response.data.data;
       } else {
         console.error('Invalid data format:', response.data);
       }
@@ -251,9 +254,10 @@ export default function EnhancedTable() {
 
   const handleFormSubmit = async () => {
     try {
-      const response = await axios.put('http://localhost:3001/api/updateUser', editUser);
+      const fetchedReponse =  await fetchData();
+      console.log(fetchedReponse);
+      const response = await axios.put(`http://localhost:3001/api/update/${fetchedReponse._id}`, editUser);
       console.log(response.data);
-      fetchData();
       handleClose();
     } catch (error) {
       console.error('Error updating user:', error.message);
@@ -275,6 +279,7 @@ export default function EnhancedTable() {
           <Table aria-labelledby="tableTitle" size="medium">
             <TableHead>
               <TableRow>
+              <TableCell>Id</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Phone</TableCell>
                 <TableCell>Email</TableCell>
@@ -287,6 +292,7 @@ export default function EnhancedTable() {
             <TableBody>
               {Array.isArray(rows) && rows.map((row) => (
                 <TableRow key={row._id}>
+                  <TableCell>{row._id}</TableCell>
                   <TableCell>{row.name}</TableCell>
                   <TableCell>{row.phone}</TableCell>
                   <TableCell>{row.email}</TableCell>

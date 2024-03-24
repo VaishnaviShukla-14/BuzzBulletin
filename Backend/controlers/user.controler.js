@@ -76,7 +76,8 @@ const deleteUser = async (req, res) => {
 
 // Update the user 
 const updateUser = async (req, res) => {
-  const { id, name, phone, email, password } = req.body;
+  const { name, phone, email, password } = req.body;
+  const id = req.params.id
 
   try {
     console.log(`Attempting to update user with id: ${id}`);

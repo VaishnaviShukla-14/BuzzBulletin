@@ -11,7 +11,7 @@ const ForgetPass = () => {
     return (
         <div className="forget-pass-container">
             <div className="forget-pass-form">
-                <h2>RESET PASSWORD</h2>
+                <h2 style={{fontFamily:'mv boli'}}>RESET PASSWORD</h2>
                 <div>
                     <FormControl variant="standard">
                         <InputLabel htmlFor="component-simple" style={{color:'black'}}>E-mail</InputLabel>

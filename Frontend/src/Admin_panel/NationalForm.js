@@ -1,3 +1,5 @@
+
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import SweetAlert from 'react-bootstrap-sweetalert';
@@ -16,10 +18,12 @@ const NationalForm = ({ isVisible, onClose }) => {
     date: new Date().toLocaleDateString(),
     time: getCurrentTime(),
     image: null,
+    video: null,
   });
 
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const Navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
@@ -37,6 +41,14 @@ const NationalForm = ({ isVisible, onClose }) => {
     setFormData((prevData) => ({
       ...prevData,
       image: image,
+    }));
+  };
+
+  const handleVideoChange = (e) => {
+    const video = e.target.files[0];
+    setFormData((prevData) => ({
+      ...prevData,
+      video: video,
     }));
   };
 
@@ -59,7 +71,28 @@ const NationalForm = ({ isVisible, onClose }) => {
         name: Cookies.get('name'), // Add the user's name to the form data
       };
 
-      const response = await axios.post('http://localhost:3001/api/nationalnews', formDataWithUser, {
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formDataWithUser.name); // Add the user's name
+      formDataToSend.append('title', formDataWithUser.title);
+      formDataToSend.append('article', formDataWithUser.article);
+      formDataToSend.append('highlight', formDataWithUser.highlight);
+      formDataToSend.append('date', formDataWithUser.date);
+      formDataToSend.append('time', formDataWithUser.time);
+      formDataToSend.append('image', formDataWithUser.image);
+      formDataToSend.append('video', formDataWithUser.video);
+
+      // Upload image file
+      if (formDataWithUser.image) {
+        formDataToSend.append('image', formDataWithUser.image);
+      }
+
+      // Upload video file
+      if (formDataWithUser.video) {
+        formDataToSend.append('video', formDataWithUser.video);
+      }
+
+      console.log(formDataToSend);
+      const response = await axios.post('http://localhost:3001/api/nationalnews', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -74,14 +107,15 @@ const NationalForm = ({ isVisible, onClose }) => {
           highlight: 'none',
           date: new Date().toLocaleDateString(),
           time: getCurrentTime(),
-
+          image: null,
+          video: null,
         });
         setSuccessAlert(true);
-
       }
     } catch (error) {
       console.error('Error during runtime', error);
       setErrorAlert(true);
+      setErrorMessage('Error during submission. Please try again.');
     }
   };
 
@@ -149,6 +183,20 @@ const NationalForm = ({ isVisible, onClose }) => {
             />
           </div>
           <div style={styles.formGroup}>
+            <label htmlFor="video" style={styles.label}>
+              Video:
+            </label>
+            <input
+              type="file"
+              id="video"
+              name="video"
+              onChange={handleVideoChange}
+              style={styles.input}
+              accept="video/*"
+              required
+            />
+          </div>
+          <div style={styles.formGroup}>
             <label htmlFor="highlight" style={styles.label}>
               Highlight:
             </label>
@@ -181,7 +229,7 @@ const NationalForm = ({ isVisible, onClose }) => {
 
         {errorAlert && (
           <SweetAlert error title="Error" onConfirm={handleErrorAlertClose}>
-            Error during submission. Please try again.
+            {errorMessage}
           </SweetAlert>
         )}
       </div>
@@ -194,7 +242,8 @@ const styles = {
     maxWidth: '600px',
     margin: 'auto',
     padding: '20px',
-    backgroundColor: '#ffffff',
+    backgroundColor:
+    '#ffffff',
     borderRadius: '8px',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
   },
@@ -263,3 +312,4 @@ const styles = {
 };
 
 export default NationalForm;
+

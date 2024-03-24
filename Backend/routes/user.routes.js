@@ -7,7 +7,7 @@ route.post('/user',addUser)
 route.post('/login', loginUser)
 route.get('/showUser',showUser)
 route.delete('/delete', deleteUser);
-route.put('/update', updateUser);
+route.put('/update/:id', updateUser);
 route.get('/search/:alphabet',searchUser);
 route.get('/showDeletedUsers', showDeletedUsers);
 

@@ -7,9 +7,10 @@ import InternationalForm from './InternationalForm'; // Import the International
 import NationalForm from './NationalForm';
 import SportsForm from './SportsForm';
 import EducationForm from './EducationForm';
+import BlogForm from './BlogForm';
 import LeftDrawer from '../MandatoryItems/LeftDrawer';
 
-const pages = ['International', 'National', 'Sports', 'Education'];
+const pages = ['International', 'National', 'Sports', 'Education','Blog'];
 
 function ResponsiveAppBar() {
   const [activePage, setActivePage] = useState('International'); // Set default value to 'International'
@@ -18,6 +19,7 @@ function ResponsiveAppBar() {
     National: false,
     Sports: false,
     Education: false,
+    Blog: false,
   });
 
   const handleClick = (page) => {
@@ -42,6 +44,7 @@ function ResponsiveAppBar() {
       National: false,
       Sports: false,
       Education: false,
+      Blog: false,
     });
   };
 
@@ -73,6 +76,13 @@ function ResponsiveAppBar() {
         return (
           <EducationForm
             isVisible={formVisible.Education}
+            onClose={handleCloseForm}
+          />
+        );
+        case 'Blog':
+        return (
+          <BlogForm
+            isVisible={formVisible.Blog}
             onClose={handleCloseForm}
           />
         );

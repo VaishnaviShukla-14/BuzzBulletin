@@ -85,7 +85,7 @@ function UserSignup() {
     return (
         <div className="signup-container">
             <div className="signup-form">
-                <h3 style={{ color: 'black', marginLeft: '115px', fontWeight: '500' }}>REGISTER</h3>
+                <h3 style={{ color: 'black', marginLeft: '115px', fontWeight: '500',fontFamily:'mv boli'}}>REGISTER</h3>
                 <p style={{ color: 'black', marginLeft: '40px' }}>Fill in your details and register yourself!</p>
                 <form onSubmit={handleSubmit}>
                     <input type="text" name='name' placeholder='Name' className='form-control mt-2' onChange={handleChange} required />
@@ -96,7 +96,7 @@ function UserSignup() {
                     <input type="password" autoComplete='123' name='password' placeholder='Password' className='form-control mt-2' onChange={handleChange} required />
                     <div className="d-grid gap-2 mt-4">
                         <button className="btn-design" type='submit'>Submit</button>
-                        <button className="btn-design"><Link to="/login" style={{ textDecoration: 'none' }}>Login</Link></button>
+                        <button className="btn-design"><Link to="/login" style={{ textDecoration: 'none' ,color:'white'}}>Login</Link></button>
                     </div>
                 </form>
             </div>

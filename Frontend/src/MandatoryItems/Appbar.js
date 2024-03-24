@@ -1,7 +1,5 @@
-
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
-import ImgLogo from '../Images/logobuzz.jpg';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -19,10 +17,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import { FaBell } from "react-icons/fa";
 import { IoMailSharp } from "react-icons/io5";
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
 
-
-  
 export default function MenuAppBar() {
   const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -36,63 +31,58 @@ export default function MenuAppBar() {
   };
 
   const handleClose = () => {
-    <Link></Link>
+    setAnchorEl(null);
   };
-
 
   return (
     <>
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar className="appbar-design" position="static" style={{backgroundColor:'#eed202'}}>
-      <Toolbar>
-          <img src={ImgLogo} alt="Logo" style={{ marginRight: '10px', height: '100px', padding:'10px', borderRadius:'50%', border:'1px solid black'}} /> 
-          <Typography variant="h6">
-          
-          </Typography>
-          <Typography  variant="h6" component="div" style={{color:'black', fontWeight:'900', justifyContent:'center',alignItems:'center',fontFamily:'sans-serif',fontSize:'150px'}} sx={{ flexGrow: 1 }}>
-           <h4 className="text"><b>The BuzzBulletin</b></h4>
-          </Typography>
-          {auth && (
-
-            
-            <div>
-
-          <IoMailSharp style={{fontSize:'25px',color:'black', marginLeft:'10px'}}/>   
-
-           <FaBell style={{fontSize:'22px',color:'black',marginLeft:'11px'}}/>
-
-              <IconButton
-                size="large"
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                onClick={handleMenu}
-                style={{color:'black',fontSize:'40px'}}
-              >
-                <AccountCircle />
-              </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem><Link to="/login" style={{ textDecoration: 'none', color: 'black' }}>Dashboard</Link></MenuItem>
-              </Menu>
-            </div>
-          )}
-        </Toolbar>
-      </AppBar>
-    </Box>
+      <Box sx={{ flexGrow: 1 }}>
+        <AppBar className="appbar-design" position="static" style={{background: 'linear-gradient(to right, #f1a7f1, #fad0c4)'}}>
+          <Toolbar>
+            <img src="Images/logo_main2.jpg" alt="ImgLogo" style={{ marginRight: '-2px', height: '115px', borderRadius: '50%', border:'1px solid black'}} />
+            <Typography variant="h6">
+            </Typography>
+            <Typography variant="h6" component="div" style={{ color: '#000', justifyContent: 'center', alignItems: 'center',fontFamily:'mv boli'}} sx={{ flexGrow: 1 }}>
+              <h4 className="text" style={{fontFamily:'"Pacifico",cursive',fontSize:'30px'}}>The DailyInsight</h4>
+            </Typography>
+            {auth && (
+              <div>
+                <IoMailSharp style={{ fontSize: '25px', color: 'black', marginLeft: '10px' }} />
+                <FaBell style={{ fontSize: '22px', color: 'black', marginLeft: '11px' }} />
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls="menu-appbar"
+                  aria-haspopup="true"
+                  onClick={handleMenu}
+                  style={{ color: 'black', fontSize: '40px' }}
+                >
+                  <AccountCircle />
+                </IconButton>
+                <Menu
+                  id="menu-appbar"
+                  anchorEl={anchorEl}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right',
+                  }}
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleClose}>My account</MenuItem>
+                  <MenuItem onClick={handleClose}>Dashboard</MenuItem>
+                </Menu>
+              </div>
+            )}
+          </Toolbar>
+        </AppBar>
+      </Box>
     </>
   );
 }

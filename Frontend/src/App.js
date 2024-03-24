@@ -19,6 +19,8 @@ import EnhancedNationalTable from './Admin_panel/EnhancedNationalTable';
 import EnhancedEducationalTable from './Admin_panel/EnhancedEducationTable';
 import EnhancedSportsTable from './Admin_panel/EnhancedSportsTable';
 import DeletedUsersForm from './Admin_panel/DeletedUser';
+import SearchBar from './MandatoryItems/NewsSearch';
+import Blog from './Pages/Blog';
 
 function App() {
   return (
@@ -46,6 +48,8 @@ function App() {
           <Route path="/enhancededutable" element={<EnhancedEducationalTable/>} />
           <Route path="/enhancedsportstable" element={<EnhancedSportsTable/>} />
           <Route path="/deleteUser" element={<DeletedUsersForm/>} />
+          <Route path="/searchnatio" element={<SearchBar/>} />
+          <Route path="/blog" element={<Blog/>} />
         </Routes>
       </div>
     </Router>

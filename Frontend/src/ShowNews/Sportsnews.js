@@ -1,5 +1,3 @@
-// SportsNews.js
-
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './SportsNews.css'; // Update the CSS file name if needed
@@ -8,14 +6,27 @@ const SportsNews = () => {
     const [sportsForms, setSportsForms] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3001/api/sportsnews')
-            .then(response => {
-                setSportsForms(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching sports forms:', error);
-            });
+        fetchData();
     }, []);
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('http://localhost:3001/api/sportsnews');
+            const sportsFormsData = response.data;
+
+            // Get current date in "MM/DD/YYYY" format
+            const currentDate = new Date().toLocaleDateString();
+
+            // Filter forms for today's date
+            const todaysSportsForms = sportsFormsData.filter(
+                form => form.dateTime.includes(currentDate)
+            );
+
+            setSportsForms(todaysSportsForms);
+        } catch (error) {
+            console.error('Error fetching sports forms:', error);
+        }
+    };
 
     return (
         <div className="container">

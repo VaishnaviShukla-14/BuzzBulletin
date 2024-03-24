@@ -17,6 +17,12 @@ code {
   top: 105px !important;
   position: fixed;
   width: 220px; /* Set a width to prevent stretching */
+  background-color: rgb(218, 140, 23);
+}
+
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
+  background-color: rgb(218, 140, 23);
+
 }
 
 .css-16ac5r2-MuiButtonBase-root-MuiListItemButton-root {

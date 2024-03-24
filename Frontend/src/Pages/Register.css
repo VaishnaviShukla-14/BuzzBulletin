@@ -1,10 +1,9 @@
-
 .signup-container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: URL("/public/Images/login_logo6.png");
+    background-image: URL("/public/Images/login_image10.png");
     background-repeat: no-repeat;
     background-size: cover;
     box-shadow: 100px;
@@ -17,7 +16,6 @@
     width: 400px;
     position: absolute;
     top: 50%;
-    margin-left: 25%;
     left: 50%;
     transform: translate(-50%, -50%);
     background: transparent;

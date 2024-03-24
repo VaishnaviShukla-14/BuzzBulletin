@@ -29,6 +29,10 @@ const sportsFormSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  video: {
+    type: String,
+    required: false,
+  },
 });
 
 const SportsNews = mongoose.model('sportsNews', sportsFormSchema);

@@ -185,18 +185,18 @@ function LeftDrawer() {
         },
       }}
     >
-      <div style={{ marginTop: '44%' }}>
+      <div style={{ marginTop: '50%',backgroundcolor: 'rgb(218, 140, 23)' }}>
         <List>
           <ListItem disablePadding>
             <ListItemButton
               onClick={handleNewsClick}
-              sx={{ color: 'black', '&:hover': { backgroundColor: '#f0f0f0' } }}
+              
             >
               <ListItemIcon className='drawericon'>
                 <PersonIcon />
               </ListItemIcon>
               <ListItemText primary="News" />
-              <ExpandMoreIcon fontSize="small" sx={{ color: 'black' }} />
+              <ExpandMoreIcon fontSize="small" />
             </ListItemButton>
           </ListItem>
           <Popover
@@ -213,34 +213,34 @@ function LeftDrawer() {
             }}
           >
             <List>
-              <Link to="/enhancedintertable" style={{ textDecoration: 'none', color: 'black' }}>
+              <Link to="/enhancedintertable" >
                 <ListItemButton
                   onClick={handleNewsClose}
-                  sx={{ '&:hover': { backgroundColor: '#f0f0f0' } }}
+                 
                 >
                   <ListItemText primary="International" />
                 </ListItemButton>
               </Link>
-              <Link to="/enhancednatiotable" style={{ textDecoration: 'none', color: 'black' }}>
+              <Link to="/enhancednatiotable" >
                 <ListItemButton
                   onClick={handleNewsClose}
-                  sx={{ '&:hover': { backgroundColor: '#f0f0f0' } }}
+                
                 >
                   <ListItemText primary="National" />
                 </ListItemButton>
               </Link>
-              <Link to="/enhancededutable" style={{ textDecoration: 'none', color: 'black' }}>
+              <Link to="/enhancededutable" >
                 <ListItemButton
                   onClick={handleNewsClose}
-                  sx={{ '&:hover': { backgroundColor: '#f0f0f0' } }}
+                  
                 >
                   <ListItemText primary="Education" />
                 </ListItemButton>
               </Link>
-              <Link to="/enhancedsportstable" style={{ textDecoration: 'none', color: 'black' }}>
+              <Link to="/enhancedsportstable" >
                 <ListItemButton
                   onClick={handleNewsClose}
-                  sx={{ '&:hover': { backgroundColor: '#f0f0f0' } }}
+                  
                 >
                   <ListItemText primary="Sports" />
                 </ListItemButton>
@@ -248,9 +248,9 @@ function LeftDrawer() {
             </List>
           </Popover>
           {menuItems.map(({ text, icon, link }, index) => (
-            <Link to={link} key={text} style={{ textDecoration: 'none', color: 'black' }}>
+            <Link to={link} key={text} >
               <ListItem disablePadding>
-                <ListItemButton sx={{ '&:hover': { backgroundColor: '#f0f0f0' } }}>
+                <ListItemButton >
                   <ListItemIcon className='drawericon'>
                     {icon}
                   </ListItemIcon>
