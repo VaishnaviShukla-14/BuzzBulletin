@@ -25,6 +25,8 @@ import EnhancedBlogTable from './Admin_panel/EnhancedBlogTable';
 import EnhancedBlog_storyForm from './Admin_panel/EnhancedBlog_storyTable';
 import EnhancedCarousel from './Admin_panel/EnhancedCarousel';
 import Blognews from './ShowNews/Blognews';
+import Blog_storynews from './ShowNews/Blog_storynews';
+import Carouselnews from './ShowNews/Carouselnews';
 
 function App() {
   return (
@@ -58,6 +60,8 @@ function App() {
           <Route path="/enhancedblog_storytable" element={<EnhancedBlog_storyForm/>} />
           <Route path="/enhancedcarouseltable" element={<EnhancedCarousel/>} />
           <Route path="/blognews" element={<Blognews/>} />
+          <Route path="/blog_storynews" element={<Blog_storynews/>} />
+          <Route path="/carousel" element={<Carouselnews/>} />
         </Routes>
       </div>
     </Router>

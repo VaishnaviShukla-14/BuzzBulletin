@@ -4,7 +4,7 @@ import Appbar from '../MandatoryItems/Appbar';
 import SubAppBar from '../MandatoryItems/SubAppBar';
 import Footer from '../MandatoryItems/Footer';
 import Weather from './Weather';
-import Slider from './Slider';
+import Slider from '../ShowNews/Carouselnews';
 import Nationalnews from '../ShowNews/NationalNews';
 import Internationalnews from '../ShowNews/Internationalnews';
 import Educationalnews from '../ShowNews/Educationalnews';
