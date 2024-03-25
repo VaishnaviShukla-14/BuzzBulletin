@@ -8,9 +8,11 @@ import NationalForm from './NationalForm';
 import SportsForm from './SportsForm';
 import EducationForm from './EducationForm';
 import BlogForm from './BlogForm';
+import Blog_storyForm from './Blog_storyForm';
+import CarouselForm from './CarouselForm';
 import LeftDrawer from '../MandatoryItems/LeftDrawer';
 
-const pages = ['International', 'National', 'Sports', 'Education','Blog'];
+const pages = ['International', 'National', 'Sports', 'Education','Blog','Blog_story','Carousel'];
 
 function ResponsiveAppBar() {
   const [activePage, setActivePage] = useState('International'); // Set default value to 'International'
@@ -20,6 +22,8 @@ function ResponsiveAppBar() {
     Sports: false,
     Education: false,
     Blog: false,
+    Blog_story:false,
+    Carousel: false,
   });
 
   const handleClick = (page) => {
@@ -45,6 +49,8 @@ function ResponsiveAppBar() {
       Sports: false,
       Education: false,
       Blog: false,
+      Blog_story: false,
+      Carousel: false,
     });
   };
 
@@ -83,6 +89,20 @@ function ResponsiveAppBar() {
         return (
           <BlogForm
             isVisible={formVisible.Blog}
+            onClose={handleCloseForm}
+          />
+        );
+        case 'Blog_story':
+        return (
+          <Blog_storyForm
+            isVisible={formVisible.Blog_story}
+            onClose={handleCloseForm}
+          />
+        );
+        case 'Carousel':
+        return (
+          <CarouselForm
+            isVisible={formVisible.Carousel}
             onClose={handleCloseForm}
           />
         );

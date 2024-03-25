@@ -3,6 +3,8 @@ const NationalForm = require('../models/national.models');
 const InternationalForm  = require('../models/international.models');
 const SportsForm = require('../models/sports.models');
 const Blog = require('../models/blog.models');
+const Blog_Story = require('../models/Blog_story.models');
+const Carousel = require('../models/Carousel.models');
 
 const BlogForm = async (req, res) => {
   try {
@@ -39,10 +41,9 @@ const BlogForm = async (req, res) => {
   }
 };
 
-
 const getBlog = async (req, res) => {
   try {
-    const blogPosts = await BlogPost.find();
+    const blogPosts = await Blog.find();
     res.status(200).json(blogPosts);
   } catch (error) {
     console.error("Error fetching blog posts", error);
@@ -51,6 +52,139 @@ const getBlog = async (req, res) => {
 };
 
 
+const Blog_StoryForm = async (req, res) => {
+  try {
+    const { title, article, name, date, time } = req.body;
+    const dateTime = `${date} ${time}`;
+    let image = '';
+    let video = '';
+
+    // Check if image file is provided
+    if (req.files["image"]) {
+      image = req.files["image"][0].path; // Get the path of the uploaded image
+    }
+
+    // Check if video file is provided
+    if (req.files["video"]) {
+      video = req.files["video"][0].path; // Get the path of the uploaded video
+    }
+
+    const newBlogPost = new Blog_Story({
+      title,
+      article,
+      name,
+      dateTime,
+      image,
+      video,
+    });
+
+    const savedPost = await newBlogPost.save();
+
+    res.status(201).json({ message: 'Blog post created successfully', post: savedPost });
+  } catch (error) {
+    console.error('Error creating blog post', error);
+    res.status(500).json({ message: 'Error creating blog post' });
+  }
+};
+
+const getBlog_Story = async (req, res) => {
+  try {
+    const blogPosts = await Blog.find();
+    res.status(200).json(blogPosts);
+  } catch (error) {
+    console.error("Error fetching blog posts", error);
+    res.status(500).json({ message: "Error fetching blog posts" });
+  }
+};
+
+// const CarouselForm = async (req, res) => {
+//   try {
+//     const { title, name, date, time } = req.body;
+//     const dateTime = `${date} ${time}`;
+//     let image = '';
+//     let video = '';
+
+//     // Check if image file is provided
+//     if (req.files && req.files["image"]) {
+//       image = req.files["image"][0].path; // Get the path of the uploaded image
+//     }
+
+//     // Check if video file is provided
+//     if (req.files && req.files["video"]) {
+//       video = req.files["video"][0].path; // Get the path of the uploaded video
+//     }
+
+//     const newCarouselItem = new Carousel({
+//       title,
+//       name,
+//       dateTime,
+//       image,
+//       video,
+//     });
+
+//     const savedItem = await newCarouselItem.save();
+
+//     res.status(201).json({ message: 'Carousel item created successfully', item: savedItem });
+//   } catch (error) {
+//     console.error('Error creating carousel item', error);
+//     res.status(500).json({ message: 'Error creating carousel item', error: error.message });
+//   }
+// };
+
+// const getCarousel = async (req, res) => {
+//   try {
+//     const carouselItems = await Carousel.find();
+//     res.status(200).json(carouselItems);
+//   } catch (error) {
+//     console.error("Error fetching carousel items", error);
+//     res.status(500).json({ message: "Error fetching carousel items", error: error.message });
+//   }
+// };
+
+const CarouselForm= async (req, res) => {
+  try {
+    const { title, article, name, date, time } = req.body;
+    const dateTime = `${date} ${time}`;
+    let image = '';
+    let video = '';
+
+    // Check if image file is provided
+    if (req.files["image"]) {
+      image = req.files["image"][0].path; // Get the path of the uploaded image
+    }
+
+    // Check if video file is provided
+    if (req.files["video"]) {
+      video = req.files["video"][0].path; // Get the path of the uploaded video
+    }
+
+    const newBlogPost = new Blog({
+      title,
+      article,
+      name,
+      dateTime,
+      image,
+      video,
+    });
+
+    const savedPost = await newBlogPost.save();
+
+    res.status(201).json({ message: 'Blog post created successfully', post: savedPost });
+  } catch (error) {
+    console.error('Error creating blog post', error);
+    res.status(500).json({ message: 'Error creating blog post' });
+  }
+};
+
+const getCarousel = async (req, res) => {
+  try {
+    const blogPosts = await Blog.find();
+    res.status(200).json(blogPosts);
+  } catch (error) {
+    console.error("Error fetching blog posts", error);
+    res.status(500).json({ message: "Error fetching blog posts" });
+  }
+};
 
 const educationform = async (req, res) => {
   try {
@@ -329,7 +463,7 @@ const deleteBlog = async (req, res) => {
 
     console.log(`Attempting to delete blog post with title: ${title}`);
 
-    const deletedPost = await BlogPost.findOneAndDelete({ title });
+    const deletedPost = await Blog.findOneAndDelete({ title }); // Assuming the model name is Blog
 
     if (deletedPost) {
       console.log(`Blog post with title ${title} deleted successfully`);
@@ -343,6 +477,59 @@ const deleteBlog = async (req, res) => {
     return res.status(500).json({ message: "Internal server error", error: error.message });
   }
 };
+
+const deleteBlog_Story = async (req, res) => {
+  const { title } = req.body;
+
+  try {
+    if (!title) {
+      console.error("Invalid title provided");
+      return res.status(400).json({ message: "Invalid title provided" });
+    }
+
+    console.log(`Attempting to delete blog post with title: ${title}`);
+
+    const deletedPost = await Blog.findOneAndDelete({ title }); // Assuming the model name is Blog
+
+    if (deletedPost) {
+      console.log(`Blog post with title ${title} deleted successfully`);
+      return res.status(200).json({ message: "Blog post deleted" });
+    } else {
+      console.log(`Blog post with title ${title} not found`);
+      return res.status(404).json({ message: "Blog post not found" });
+    }
+  } catch (error) {
+    console.error(`Error deleting blog post with title ${title}:`, error.message);
+    return res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};
+
+const deleteCarousel = async (req, res) => {
+  const { title } = req.body;
+
+  try {
+    if (!title) {
+      console.error("Invalid title provided");
+      return res.status(400).json({ message: "Invalid title provided" });
+    }
+
+    console.log(`Attempting to delete carousel item with title: ${title}`);
+
+    const deletedCarouselItem = await Carousel.findOneAndDelete({ title });
+
+    if (deletedCarouselItem) {
+      console.log(`Carousel item with title ${title} deleted successfully`);
+      return res.status(200).json({ message: "Carousel item deleted" });
+    } else {
+      console.log(`Carousel item with title ${title} not found`);
+      return res.status(404).json({ message: "Carousel item not found" });
+    }
+  } catch (error) {
+    console.error(`Error deleting carousel item with title ${title}:`, error.message);
+    return res.status(500).json({ message: "Internal server error", error: error.message });
+  }
+};
+
 
 
 
@@ -380,23 +567,21 @@ module.exports = {
   educationform,
   sportsform,
   BlogForm,
+  Blog_StoryForm,
+  CarouselForm,
   getNationalNews,
   getSportsNews,
   getInternationalNews,
   getEducationNews,
   getBlog,
+  getBlog_Story,
+  getCarousel,
   deleteInternationalNews,
   deleteNationalNews,
   deleteEducationNews,
   deleteSportsNews,
   deleteBlog,
+  deleteBlog_Story,
+  deleteCarousel,
   searchNews,
 };
-
-
-
-
-
-
-
-

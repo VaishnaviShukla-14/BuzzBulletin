@@ -7,17 +7,23 @@ const {
    educationform,
    sportsform,
    BlogForm,
+   Blog_StoryForm,
+   CarouselForm,
    getNationalNews,
    getSportsNews,
    getEducationNews,
    getInternationalNews,
    getBlog,
+   getBlog_Story,
+   getCarousel,
    searchNews,
    deleteInternationalNews,
    deleteNationalNews,
    deleteEducationNews,
    deleteSportsNews,
    deleteBlog,
+   deleteBlog_Story,
+   deleteCarousel,
 } = require("../controlers/news.controler");
 
 
@@ -37,6 +43,8 @@ router.post('/nationalnews', upload.fields([{ name: "image" }, { name: "video" }
 router.post('/educationalnews',upload.fields([{ name: "image" }, { name: "video" }]), educationform);
 router.post('/sportsnews', upload.fields([{ name: "image" }, { name: "video" }]), sportsform);
 router.post('/blog', upload.fields([{ name: "image" }, { name: "video" }]), BlogForm);
+router.post('/carousel', upload.fields([{ name: "image" }, { name: "video" }]), CarouselForm);
+router.post('/blog_story', upload.fields([{ name: "image" }, { name: "video" }]), Blog_StoryForm);
 
 //Getting the national news from backend
 router.get('/nationalnews',upload.fields([{ name: "image" }, { name: "video" }]), getNationalNews);
@@ -44,6 +52,8 @@ router.get('/internationalnews',upload.fields([{ name: "image" }, { name: "video
 router.get('/educationalnews',upload.fields([{ name: "image" }, { name: "video" }]), getEducationNews);
 router.get('/sportsnews',upload.fields([{ name: "image" }, { name: "video" }]), getSportsNews);
 router.get('/blog',upload.fields([{ name: "image" }, { name: "video" }]), getBlog);
+router.get('/blog_story',upload.fields([{ name: "image" }, { name: "video" }]), getBlog_Story);
+router.get('/carousel',upload.fields([{ name: "image" }, { name: "video" }]), getCarousel);
 
 //Delete news from the form api
 router.delete('/deleteinternationalnews',deleteInternationalNews);
@@ -51,6 +61,8 @@ router.delete('/deletenationalnews',deleteNationalNews);
 router.delete('/deleteeducationalnews',deleteEducationNews);
 router.delete('/deletesportsnews',deleteSportsNews);
 router.delete('/deleteblog',deleteBlog);
+router.delete('/deleteblog_story',deleteBlog_Story);
+router.delete('/deletecarousel',deleteCarousel);
 
 // Search news from the form api
 router.get('/searchnews', searchNews);

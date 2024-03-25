@@ -21,6 +21,10 @@ import EnhancedSportsTable from './Admin_panel/EnhancedSportsTable';
 import DeletedUsersForm from './Admin_panel/DeletedUser';
 import SearchBar from './MandatoryItems/NewsSearch';
 import Blog from './Pages/Blog';
+import EnhancedBlogTable from './Admin_panel/EnhancedBlogTable';
+import EnhancedBlog_storyForm from './Admin_panel/EnhancedBlog_storyTable';
+import EnhancedCarousel from './Admin_panel/EnhancedCarousel';
+import Blognews from './ShowNews/Blognews';
 
 function App() {
   return (
@@ -47,9 +51,13 @@ function App() {
           <Route path="/enhancednatiotable" element={<EnhancedNationalTable/>} />
           <Route path="/enhancededutable" element={<EnhancedEducationalTable/>} />
           <Route path="/enhancedsportstable" element={<EnhancedSportsTable/>} />
+          <Route path="/enhancedblogtable" element={<EnhancedBlogTable/>} />
           <Route path="/deleteUser" element={<DeletedUsersForm/>} />
           <Route path="/searchnatio" element={<SearchBar/>} />
           <Route path="/blog" element={<Blog/>} />
+          <Route path="/enhancedblog_storytable" element={<EnhancedBlog_storyForm/>} />
+          <Route path="/enhancedcarouseltable" element={<EnhancedCarousel/>} />
+          <Route path="/blognews" element={<Blognews/>} />
         </Routes>
       </div>
     </Router>
