@@ -46,7 +46,7 @@ function App() {
           <Route path="/user" element={<User />} />
           <Route path="/newspage" element={<NewsPage />} />
           <Route path="/nationalnews" element={<NationalNews />} />
-          <Route path="/InternationalNews" element={<InternationalNews/>} />
+          <Route path="/internationalnews" element={<InternationalNews/>} />
           <Route path="/educationalnews" element={<EducationNews />} />
           <Route path="/sportsnews" element={<SportsNews />} />
           <Route path="/enhancedintertable" element={<EnhancedInternationalTable/>} />

@@ -1,4 +1,4 @@
-// // Frontend component: EnhancedTable
+// // EnhancedTable.js
 // import React, { useState, useEffect } from 'react';
 // import axios from 'axios';
 // import Box from '@mui/material/Box';
@@ -21,6 +21,7 @@
 //   const [rows, setRows] = useState([]);
 //   const [editUser, setEditUser] = useState(null);
 //   const [open, setOpen] = useState(false);
+//   const [rowId , setRowId] = useState();
 
 //   useEffect(() => {
 //     fetchData();
@@ -30,7 +31,9 @@
 //     try {
 //       const response = await axios.get('http://localhost:3001/api/showUser');
 //       if (response.data && response.data.data && Array.isArray(response.data.data)) {
+        
 //         setRows(response.data.data);
+//         return response.data.data;
 //       } else {
 //         console.error('Invalid data format:', response.data);
 //       }
@@ -60,9 +63,10 @@
 
 //   const handleFormSubmit = async () => {
 //     try {
-//       const response = await axios.put('http://localhost:3001/api/updateUser', editUser);
+//       const fetchedReponse =  await fetchData();
+//       console.log(fetchedReponse);
+//       const response = await axios.put(`http://localhost:3001/api/update/${fetchedReponse._id}`, editUser);
 //       console.log(response.data);
-//       fetchData();
 //       handleClose();
 //     } catch (error) {
 //       console.error('Error updating user:', error.message);
@@ -79,23 +83,30 @@
 //   return (
 //     <Box sx={{ width: '100%' }}>
 //       <Paper sx={{ width: '100%', mb: 2 }}>
+//       <h1>Current Users</h1>
 //         <TableContainer>
 //           <Table aria-labelledby="tableTitle" size="medium">
 //             <TableHead>
 //               <TableRow>
+//               <TableCell>Id</TableCell>
 //                 <TableCell>Name</TableCell>
 //                 <TableCell>Phone</TableCell>
 //                 <TableCell>Email</TableCell>
+//                 <TableCell>Address</TableCell>
+//                 <TableCell>Adharcard Number</TableCell>
 //                 <TableCell>Password</TableCell>
 //                 <TableCell>Actions</TableCell>
 //               </TableRow>
 //             </TableHead>
 //             <TableBody>
 //               {Array.isArray(rows) && rows.map((row) => (
-//                 <TableRow key={row.id}>
+//                 <TableRow key={row._id}>
+//                   <TableCell>{row._id}</TableCell>
 //                   <TableCell>{row.name}</TableCell>
 //                   <TableCell>{row.phone}</TableCell>
 //                   <TableCell>{row.email}</TableCell>
+//                   <TableCell>{row.address}</TableCell>
+//                   <TableCell>{row.adharcard}</TableCell>
 //                   <TableCell>{row.password}</TableCell>
 //                   <TableCell>
 //                     <IconButton
@@ -189,7 +200,8 @@
 //   );
 // }
 
-// EnhancedTable.js
+
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Box from '@mui/material/Box';
@@ -207,12 +219,15 @@ import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Alert from '@mui/material/Alert';
 
 export default function EnhancedTable() {
   const [rows, setRows] = useState([]);
   const [editUser, setEditUser] = useState(null);
   const [open, setOpen] = useState(false);
-  const [rowId , setRowId] = useState();
+  const [rowId, setRowId] = useState();
+  const [successAlert, setSuccessAlert] = useState(false);
+  const [errorAlert, setErrorAlert] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -222,9 +237,7 @@ export default function EnhancedTable() {
     try {
       const response = await axios.get('http://localhost:3001/api/showUser');
       if (response.data && response.data.data && Array.isArray(response.data.data)) {
-        
         setRows(response.data.data);
-        return response.data.data;
       } else {
         console.error('Invalid data format:', response.data);
       }
@@ -250,36 +263,48 @@ export default function EnhancedTable() {
   const handleClose = () => {
     setEditUser(null);
     setOpen(false);
+    setSuccessAlert(false);
+    setErrorAlert(false);
   };
 
   const handleFormSubmit = async () => {
     try {
-      const fetchedReponse =  await fetchData();
-      console.log(fetchedReponse);
-      const response = await axios.put(`http://localhost:3001/api/update/${fetchedReponse._id}`, editUser);
+      if (!editUser || !editUser._id) {
+        console.error("User or user id is missing.");
+        return;
+      }
+
+      const response = await axios.put(`http://localhost:3001/api/update/${editUser._id}`, editUser);
       console.log(response.data);
+      setSuccessAlert(true);
       handleClose();
+      fetchData(); // Fetch updated data after successful update
     } catch (error) {
       console.error('Error updating user:', error.message);
+      setErrorAlert(true);
     }
   };
 
   const handleInputChange = (e) => {
-    setEditUser({
-      ...editUser,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    // Check if the field name is one of the allowed fields to update
+    if (['address', 'adharcard', 'phone', 'email'].includes(name)) {
+      setEditUser({
+        ...editUser,
+        [name]: value,
+      });
+    }
   };
 
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%', mb: 2 }}>
-      <h1>Current Users</h1>
+        <h1>Current Users</h1>
         <TableContainer>
           <Table aria-labelledby="tableTitle" size="medium">
             <TableHead>
               <TableRow>
-              <TableCell>Id</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Phone</TableCell>
                 <TableCell>Email</TableCell>
@@ -292,7 +317,6 @@ export default function EnhancedTable() {
             <TableBody>
               {Array.isArray(rows) && rows.map((row) => (
                 <TableRow key={row._id}>
-                  <TableCell>{row._id}</TableCell>
                   <TableCell>{row.name}</TableCell>
                   <TableCell>{row.phone}</TableCell>
                   <TableCell>{row.email}</TableCell>
@@ -350,6 +374,7 @@ export default function EnhancedTable() {
               name="name"
               value={editUser?.name || ''}
               onChange={handleInputChange}
+              disabled // Disable editing of name field
             />
             <TextField
               label="Phone"
@@ -370,6 +395,24 @@ export default function EnhancedTable() {
               onChange={handleInputChange}
             />
             <TextField
+              label="Address"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              name="address"
+              value={editUser?.address || ''}
+              onChange={handleInputChange}
+            />
+            <TextField
+              label="Adharcard Number"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              name="adharcard"
+              value={editUser?.adharcard || ''}
+              onChange={handleInputChange}
+            />
+            <TextField
               label="Password"
               variant="outlined"
               fullWidth
@@ -377,6 +420,7 @@ export default function EnhancedTable() {
               name="password"
               value={editUser?.password || ''}
               onChange={handleInputChange}
+              disabled // Disable editing of password field
             />
             <Button type="button" variant="contained" onClick={handleClose} sx={{ mr: 1 }}>
               Close
@@ -387,6 +431,22 @@ export default function EnhancedTable() {
           </form>
         </Box>
       </Modal>
-    </Box>
-  );
+
+      {/* Success and Error Alerts */}
+      <Box sx={{ width: '100%', marginTop: 2
+}}>
+{successAlert && (
+  <Alert severity="success" onClose={() => setSuccessAlert(false)}>
+    User updated successfully!
+  </Alert>
+)}
+{errorAlert && (
+  <Alert severity="error" onClose={() => setErrorAlert(false)}>
+    Error updating user. Please try again later.
+  </Alert>
+)}
+</Box>
+</Box>
+);
 }
+
