@@ -73,42 +73,7 @@ const deleteUser = async (req, res) => {
   }
 };
 
-
-// Update the user 
-// const updateUser = async (req, res) => {
-//   const { name, phone, email, password } = req.body;
-//   const id = req.params.id
-
-//   try {
-//     console.log(`Attempting to update user with id: ${id}`);
-
-//     const updatedUser = await User.findOneAndUpdate(
-//       { _id: id }, // Use _id to find the user by ID
-//       {
-//         $set: {
-//           name,
-//           phone,
-//           email,
-//           password,
-//           // Add other fields as needed
-//         },
-//       },
-//       { new: true }
-//     );
-
-//     if (updatedUser) {
-//       console.log(`User with id ${id} updated successfully`);
-//       res.status(200).json({ mess: "Updated successfully", updatedUser });
-//     } else {
-//       console.log(`User with id ${id} not found`);
-//       res.status(404).json({ mess: "User not found" });
-//     }
-//   } catch (error) {
-//     console.error(`Error updating user with id ${id}:`, error.message);
-//     res.status(500).json({ mess: "Server Error", error: error.message });
-//   }
-// };
-
+//Update User
 const updateUser = async (req, res) => {
   const { name, phone, email, address, password } = req.body;
   const id = req.params.id;

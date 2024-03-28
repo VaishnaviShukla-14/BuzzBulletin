@@ -1,4 +1,3 @@
-// Frontend component: EnhancedInternationalTable
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Box from '@mui/material/Box';
@@ -11,37 +10,38 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'; // Import PlayArrowIcon for displaying video
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 export default function EnhancedEducationalTable() {
-  const [internationalNews, setInternationalNews] = useState([]);
+  const [educationalNews, setEducationalNews] = useState([]);
   const [deleteTarget, setDeleteTarget] = useState(null);
 
   useEffect(() => {
-    fetchInternationalNews();
+    fetchEducationalNews();
   }, []);
 
-  const fetchInternationalNews = async () => {
+  const fetchEducationalNews = async () => {
     try {
       const response = await axios.get('http://localhost:3001/api/educationalnews'); // Replace with your actual API endpoint
       if (response.data && Array.isArray(response.data)) {
-        setInternationalNews(response.data);
+        setEducationalNews(response.data);
       } else {
         console.error('Invalid data format:', response.data);
       }
     } catch (error) {
-      console.error('Error fetching international news:', error);
+      console.error('Error fetching educational news:', error);
     }
   };
 
   const handleDeleteNews = async (title) => {
     try {
       await axios.delete('http://localhost:3001/api/deleteeducationalnews', { data: { title } }); // Replace with your actual delete API endpoint
-      fetchInternationalNews();
+      fetchEducationalNews();
     } catch (error) {
-      console.error('Error deleting international news:', error);
+      console.error('Error deleting educational news:', error);
     }
   };
 
@@ -72,17 +72,25 @@ export default function EnhancedEducationalTable() {
                 <TableCell>Article</TableCell>
                 <TableCell>Highlight</TableCell>
                 <TableCell>Name</TableCell>
+                <TableCell>Video</TableCell> {/* New column for video */}
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {Array.isArray(internationalNews) && internationalNews.map((news) => (
+              {Array.isArray(educationalNews) && educationalNews.map((news) => (
                 <TableRow key={news.title}>
                   <TableCell>{news.title}</TableCell>
                   <TableCell>{news.image}</TableCell>
                   <TableCell>{news.article}</TableCell>
                   <TableCell>{news.highlight}</TableCell>
                   <TableCell>{news.name}</TableCell>
+                  <TableCell>
+                    {news.video && ( // Display video icon only if video is available
+                      <IconButton color="primary" aria-label="play video">
+                        <PlayArrowIcon />
+                      </IconButton>
+                    )}
+                  </TableCell>
                   <TableCell>
                     <IconButton
                       onClick={() => handleDeleteIconClick(news)}

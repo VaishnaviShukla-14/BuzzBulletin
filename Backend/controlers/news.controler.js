@@ -188,9 +188,9 @@ const getCarousel = async (req, res) => {
 
 const educationform = async (req, res) => {
   try {
-    const { title, article, highlight, name, date, time } = req.body;
-    const dateTime = `${date} ${time}`;
-    const image = req.file.path;
+    const { name, title, article, highlight } = req.body;
+    const { date, time } = req.body; // Extract date and time from req.body
+    const image = req.files["image"][0].path; // Get the path of the uploaded image
     const video = req.files["video"][0].path; // Get the path of the uploaded video
 
     const newEducationForm = new EducationForm({
@@ -198,9 +198,9 @@ const educationform = async (req, res) => {
       article,
       highlight,
       name,
-      dateTime,
+      dateTime: `${date} ${time}`, // Combine date and time to form dateTime
       image,
-      video, // Add video field to the form data
+      video,
     });
 
     const savedForm = await newEducationForm.save();
@@ -221,6 +221,7 @@ const getEducationNews = async (req, res) => {
     res.status(500).json({ message: "Error fetching education forms" });
   }
 };
+
 
 
 
@@ -300,7 +301,6 @@ const getNationalNews = async (req, res) => {
 
 
 
-
 const sportsform = async (req, res) => {
   try {
     const { title, article, highlight, sport, name, date, time } = req.body;
@@ -308,7 +308,7 @@ const sportsform = async (req, res) => {
     // Convert date and time strings to a Date object
     const dateTime = new Date(`${date}T${time}`);
 
-    const image = req.file.path; // Assuming multer saves the file path to req.file.path
+    const image = req.files["image"][0].path; // Get the path of the uploaded image
     const video = req.files["video"][0].path; // Get the path of the uploaded video
 
     const newNews = new SportsForm({
@@ -334,7 +334,6 @@ const sportsform = async (req, res) => {
   }
 };
 
-
 const getSportsNews = async (req, res) => {
   try {
     const sportsNews = await SportsForm.find();
@@ -344,6 +343,7 @@ const getSportsNews = async (req, res) => {
     res.status(500).json({ message: "Error fetching sports forms" });
   }
 };
+
 
 
 

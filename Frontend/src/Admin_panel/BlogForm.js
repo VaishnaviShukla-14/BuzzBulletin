@@ -14,6 +14,8 @@ const BlogForm = ({ isVisible, onClose }) => {
     image: null,
     video: null,
     uploadOption: 'image', // By default, allow uploading image
+    likes: 0,
+    dislikes: 0,
   });
 
   const [successAlert, setSuccessAlert] = useState(false);
@@ -53,6 +55,8 @@ const BlogForm = ({ isVisible, onClose }) => {
           image: null,
           video: null,
           uploadOption: 'image', // Reset upload option to image
+          likes: 0, // Reset like count
+          dislikes: 0, // Reset dislike count
         });
         setSuccessAlert(true);
       }
@@ -63,6 +67,24 @@ const BlogForm = ({ isVisible, onClose }) => {
     }
   };
 
+  const handleLike = () => {
+    setFormData((prevData) => {
+      const liked = prevData.likes === 1;
+      return { ...prevData, likes: liked ? 0 : 1, dislikes: liked ? 0 : prevData.dislikes };
+    });
+  };
+
+  const handleDislike = () => {
+    setFormData((prevData) => {
+      const disliked = prevData.dislikes === 1;
+      return { ...prevData, dislikes: disliked ? 0 : 1, likes: disliked ? 0 : prevData.likes };
+    });
+  };
+
+  const handleUploadOptionChange = (option) => {
+    setFormData({ ...formData, uploadOption: option });
+  };
+
   const handleSuccessAlertClose = () => {
     setSuccessAlert(false);
     onClose();
@@ -70,10 +92,6 @@ const BlogForm = ({ isVisible, onClose }) => {
 
   const handleErrorAlertClose = () => {
     setErrorAlert(false);
-  };
-
-  const handleUploadOptionChange = (option) => {
-    setFormData({ ...formData, uploadOption: option });
   };
 
   if (!isVisible) {
@@ -167,6 +185,17 @@ const BlogForm = ({ isVisible, onClose }) => {
               Submit
             </Button>
           </div>
+          <div style={styles.likeDislikeGroup}>
+            <Button onClick={handleLike} style={styles.likeButton} icon={<i className="far fa-thumbs-up"></i>}>
+              Like ({formData.likes || 0})
+            </Button>
+            <Button onClick={handleDislike} style={styles.dislikeButton} icon={<i className="far fa-thumbs-down"></i>}>
+              Dislike ({formData.dislikes || 0})
+            </Button>
+            <Button style={styles.commentButton} icon={<i className="far fa-comment-alt"></i>}>
+              Comment
+            </Button>
+          </div>
         </form>
         {successAlert && (
           <SweetAlert success title="Success" onConfirm={handleSuccessAlertClose}>
@@ -244,8 +273,26 @@ const styles = {
     cursor: 'pointer',
     fontSize: '16px',
   },
+  likeDislikeGroup: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginTop: '20px',
+  },
+  likeButton: {
+    backgroundColor: '#4caf50',
+    color: 'white',
+    marginRight: '10px',
+  },
+  dislikeButton: {
+    backgroundColor: '#ff5722',
+    color: 'white',
+    marginRight: '10px',
+  },
+  commentButton: {
+    backgroundColor: '#2196f3',
+    color: 'white',
+  },
 };
 
 export default BlogForm;
 
-   

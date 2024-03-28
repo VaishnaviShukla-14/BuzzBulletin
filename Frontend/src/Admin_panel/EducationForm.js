@@ -1,13 +1,16 @@
+
+
 import React, { useState } from 'react';
 import axios from 'axios';
 import SweetAlert from 'react-bootstrap-sweetalert';
 import { useNavigate } from 'react-router-dom';
 import { message, Button, Input, Select } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import Cookies from 'js-cookie';
 
 const { Option } = Select;
 
-const EducationalForm = ({ isVisible, onClose }) => {
+const EducationForm = ({ isVisible, onClose }) => {
   const [formData, setFormData] = useState({
     title: '',
     article: '',
@@ -15,10 +18,12 @@ const EducationalForm = ({ isVisible, onClose }) => {
     date: new Date().toLocaleDateString(),
     time: getCurrentTime(),
     image: null,
+    video: null,
   });
 
   const [successAlert, setSuccessAlert] = useState(false);
   const [errorAlert, setErrorAlert] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const Navigate = useNavigate();
   const [messageApi, contextHolder] = message.useMessage();
@@ -31,11 +36,19 @@ const EducationalForm = ({ isVisible, onClose }) => {
     }));
   };
 
-  const handleFileChange = (e) => {
+  const handlefileChange = (e) => {
     const image = e.target.files[0];
     setFormData((prevData) => ({
       ...prevData,
       image: image,
+    }));
+  };
+
+  const handleVideoChange = (e) => {
+    const video = e.target.files[0];
+    setFormData((prevData) => ({
+      ...prevData,
+      video: video,
     }));
   };
 
@@ -58,7 +71,28 @@ const EducationalForm = ({ isVisible, onClose }) => {
         name: Cookies.get('name'), // Add the user's name to the form data
       };
 
-      const response = await axios.post('http://localhost:3001/api/educationalnews', formDataWithUser, {
+      const formDataToSend = new FormData();
+      formDataToSend.append('name', formDataWithUser.name); // Add the user's name
+      formDataToSend.append('title', formDataWithUser.title);
+      formDataToSend.append('article', formDataWithUser.article);
+      formDataToSend.append('highlight', formDataWithUser.highlight);
+      formDataToSend.append('date', formDataWithUser.date);
+      formDataToSend.append('time', formDataWithUser.time);
+      formDataToSend.append('image', formDataWithUser.image);
+      formDataToSend.append('video', formDataWithUser.video);
+
+      // Upload image file
+      if (formDataWithUser.image) {
+        formDataToSend.append('image', formDataWithUser.image);
+      }
+
+      // Upload video file
+      if (formDataWithUser.video) {
+        formDataToSend.append('video', formDataWithUser.video);
+      }
+
+      console.log(formDataToSend);
+      const response = await axios.post('http://localhost:3001/api/educationalnews', formDataToSend, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -73,12 +107,15 @@ const EducationalForm = ({ isVisible, onClose }) => {
           highlight: 'none',
           date: new Date().toLocaleDateString(),
           time: getCurrentTime(),
+          image: null,
+          video: null,
         });
         setSuccessAlert(true);
       }
     } catch (error) {
       console.error('Error during runtime', error);
       setErrorAlert(true);
+      setErrorMessage('Error during submission. Please try again.');
     }
   };
 
@@ -99,7 +136,7 @@ const EducationalForm = ({ isVisible, onClose }) => {
     <>
       {contextHolder}
       <div style={styles.formContainer}>
-        <h2 style={styles.heading}>Educational Form</h2>
+        <h2 style={styles.heading}>Education Form</h2>
         <div style={styles.formGroup}>
           <h3 style={styles.subheading}>{`Date: ${formData.date}`} <br />{`Time: ${formData.time}`}<br /> {Cookies.get('name')}</h3>
         </div>
@@ -139,9 +176,23 @@ const EducationalForm = ({ isVisible, onClose }) => {
               type="file"
               id="image"
               name="image"
-              onChange={handleFileChange}
+              onChange={handlefileChange}
               style={styles.input}
               accept="image/*"
+              required
+            />
+          </div>
+          <div style={styles.formGroup}>
+            <label htmlFor="video" style={styles.label}>
+              Video:
+            </label>
+            <input
+              type="file"
+              id="video"
+              name="video"
+              onChange={handleVideoChange}
+              style={styles.input}
+              accept="video/*"
               required
             />
           </div>
@@ -178,7 +229,7 @@ const EducationalForm = ({ isVisible, onClose }) => {
 
         {errorAlert && (
           <SweetAlert error title="Error" onConfirm={handleErrorAlertClose}>
-            Error during submission. Please try again.
+            {errorMessage}
           </SweetAlert>
         )}
       </div>
@@ -191,7 +242,8 @@ const styles = {
     maxWidth: '600px',
     margin: 'auto',
     padding: '20px',
-    backgroundColor: '#ffffff',
+    backgroundColor:
+    '#ffffff',
     borderRadius: '8px',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
   },
@@ -234,6 +286,7 @@ const styles = {
     width: '100%',
     padding: '10px',
     boxSizing: 'border-box',
+    border: '1px solid #ccc',
     borderRadius: '4px',
     marginBottom: '10px',
   },
@@ -258,4 +311,5 @@ const styles = {
   },
 };
 
-export default EducationalForm;
+export default EducationForm;
+
