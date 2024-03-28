@@ -27,6 +27,9 @@ import EnhancedCarousel from './Admin_panel/EnhancedCarousel';
 import Blognews from './ShowNews/Blognews';
 import Blog_storynews from './ShowNews/Blog_storynews';
 import Carouselnews from './ShowNews/Carouselnews';
+import HockeyNews from './ShowNews/hockeynews';
+import FootballNews from './ShowNews/footballnews';
+import CricketNews from './ShowNews/Cricketnews';
 
 function App() {
   return (
@@ -62,6 +65,9 @@ function App() {
           <Route path="/blognews" element={<Blognews/>} />
           <Route path="/blog_storynews" element={<Blog_storynews/>} />
           <Route path="/carousel" element={<Carouselnews/>} />
+          <Route path="/hockeynews" element={<HockeyNews/>} />
+          <Route path="/footballnews" element={<FootballNews/>} />
+          <Route path="/cricketnews" element={<CricketNews/>}/>
         </Routes>
       </div>
     </Router>
